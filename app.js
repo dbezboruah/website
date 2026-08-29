@@ -1,25 +1,10 @@
+```javascript
 /* =========================================================
-   BEBERIBANG
-   BLOG FRONT-END
+   BEBERIBANG BLOG
+   Load posts from posts.json
    ========================================================= */
 
-
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
-
-const POSTS_FILE = "posts.json";
-
-
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
-
-const blogList =
-    document.getElementById("blogList");
-
-const articleView =
-    document.getElementById("articleView");
+const POSTS_FILE = "./posts.json";
 
 
 /* =========================================================
@@ -28,18 +13,22 @@ const articleView =
 
 async function loadPosts() {
 
+    const blogList =
+        document.getElementById("blogList");
+
     try {
 
         const response =
             await fetch(
-                `${POSTS_FILE}?t=${Date.now()}`
+                POSTS_FILE + "?t=" + Date.now()
             );
 
 
         if (!response.ok) {
 
             throw new Error(
-                "Unable to load posts"
+                "Could not load posts.json. Status: "
+                + response.status
             );
 
         }
@@ -49,41 +38,65 @@ async function loadPosts() {
             await response.json();
 
 
-        displayPosts(posts);
+        console.log(
+            "Posts loaded:",
+            posts
+        );
 
 
-        /* Check whether an article was requested */
+        if (
+            !Array.isArray(posts) ||
+            posts.length === 0
+        ) {
 
-        const hash =
-            window.location.hash;
+            blogList.innerHTML = `
+                <p class="no-posts">
+                    No posts available.
+                </p>
+            `;
 
-
-        if (hash.startsWith("#post-")) {
-
-            const id =
-                decodeURIComponent(
-                    hash.substring(6)
-                );
-
-
-            showArticle(
-                posts,
-                id
-            );
+            return;
 
         }
 
 
+        /* Show the posts */
+
+        blogList.innerHTML = "";
+
+
+        posts.forEach(
+            post => {
+
+                blogList.appendChild(
+                    createPost(post)
+                );
+
+            }
+        );
+
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Blog loading error:",
+            error
+        );
 
 
         blogList.innerHTML = `
 
-            <p class="error-message">
-                Unable to load posts.
-            </p>
+            <div class="error-message">
+
+                <p>
+                    Unable to load posts.
+                </p>
+
+                <small>
+                    ${escapeHTML(error.message)}
+                </small>
+
+            </div>
 
         `;
 
@@ -93,127 +106,94 @@ async function loadPosts() {
 
 
 /* =========================================================
-   DISPLAY BLOG LIST
+   CREATE POST PREVIEW
    ========================================================= */
 
-function displayPosts(posts) {
+function createPost(post) {
 
-    blogList.innerHTML = "";
-
-
-    posts.forEach(post => {
-
-        const card =
-            document.createElement("article");
+    const article =
+        document.createElement("article");
 
 
-        card.className =
-            "post_preview";
+    article.className =
+        "post_preview";
 
 
-        card.innerHTML = `
-
-            <div class="post_preview_date">
-
-                ${formatDate(post.date)}
-
-            </div>
+    const title =
+        post.title || "Untitled";
 
 
-            <h2 class="post_preview_title">
-
-                ${escapeHTML(post.title)}
-
-            </h2>
+    const date =
+        formatDate(post.date);
 
 
-            <div class="post_preview_excerpt">
-
-                ${post.excerpt}
-
-            </div>
+    const excerpt =
+        post.excerpt || "";
 
 
-            <a
-                href="#post-${encodeURIComponent(post.id)}"
-                class="read_link"
-                data-post-id="${escapeHTML(post.id)}">
+    article.innerHTML = `
 
-                Read →
-
-            </a>
-
-        `;
+        <div class="post_preview_date">
+            ${date}
+        </div>
 
 
-        blogList.appendChild(card);
-
-    });
-
-
-    /* Attach click events */
-
-    document
-        .querySelectorAll(".read_link")
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
+        <h2 class="post_preview_title">
+            ${escapeHTML(title)}
+        </h2>
 
 
-                    const id =
-                        this.dataset.postId;
+        <div class="post_preview_excerpt">
+            ${escapeHTML(excerpt)}
+        </div>
 
 
-                    showArticle(
-                        posts,
-                        id
-                    );
+        <a
+            href="#post-${encodeURIComponent(post.id)}"
+            class="read_link">
+
+            Read →
+
+        </a>
+
+    `;
 
 
-                    window.history.pushState(
-                        null,
-                        "",
-                        `#post-${encodeURIComponent(id)}`
-                    );
+    article
+        .querySelector(".read_link")
+        .addEventListener(
+            "click",
+            function(event) {
 
-                }
-            );
+                event.preventDefault();
 
-        });
+                showPost(post);
 
-}
-
-
-/* =========================================================
-   SHOW ARTICLE
-   ========================================================= */
-
-function showArticle(posts, id) {
-
-    const post =
-        posts.find(
-            item => item.id === id
+            }
         );
 
 
-    if (!post) {
+    return article;
 
-        return;
-
-    }
+}
 
 
-    /* Hide blog list */
+/* =========================================================
+   SHOW FULL POST
+   ========================================================= */
+
+function showPost(post) {
+
+    const blogList =
+        document.getElementById("blogList");
+
+    const articleView =
+        document.getElementById("articleView");
+
 
     blogList.style.display =
         "none";
 
-
-    /* Show article */
 
     articleView.style.display =
         "block";
@@ -225,8 +205,9 @@ function showArticle(posts, id) {
 
 
             <a
-                href="blog.html"
-                class="back_link">
+                href="#"
+                class="back_link"
+                onclick="showAllPosts(); return false;">
 
                 ← All posts
 
@@ -249,7 +230,7 @@ function showArticle(posts, id) {
 
             <div class="article_content">
 
-                ${post.content}
+                ${post.content || ""}
 
             </div>
 
@@ -257,8 +238,9 @@ function showArticle(posts, id) {
             <div class="article_bottom">
 
                 <a
-                    href="blog.html"
-                    class="back_link">
+                    href="#"
+                    class="back_link"
+                    onclick="showAllPosts(); return false;">
 
                     ← Back to all posts
 
@@ -281,31 +263,36 @@ function showArticle(posts, id) {
 
 
 /* =========================================================
-   BROWSER BACK BUTTON
+   SHOW ALL POSTS
    ========================================================= */
 
-window.addEventListener(
-    "popstate",
-    function() {
+function showAllPosts() {
 
-        loadPosts();
+    const blogList =
+        document.getElementById("blogList");
 
-    }
-);
+    const articleView =
+        document.getElementById("articleView");
 
 
-/* =========================================================
-   HASH CHANGE
-   ========================================================= */
+    articleView.style.display =
+        "none";
 
-window.addEventListener(
-    "hashchange",
-    function() {
 
-        loadPosts();
+    blogList.style.display =
+        "block";
 
-    }
-);
+
+    window.location.hash =
+        "";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
 
 
 /* =========================================================
@@ -313,6 +300,13 @@ window.addEventListener(
    ========================================================= */
 
 function formatDate(dateString) {
+
+    if (!dateString) {
+
+        return "";
+
+    }
+
 
     const date =
         new Date(dateString);
@@ -354,4 +348,4 @@ function escapeHTML(text) {
    ========================================================= */
 
 loadPosts();
-
+```
