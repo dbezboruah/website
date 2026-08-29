@@ -356,13 +356,14 @@ a{
 }
 
 
+
 /* =========================================================
-   BLOG PAGE
+   BLOG CONTAINER
    ========================================================= */
 
 .blog_container {
 
-    max-width: 850px;
+    max-width: 900px;
 
     margin: 4rem auto;
 
@@ -372,16 +373,43 @@ a{
 
 
 /* =========================================================
-   POST PREVIEW
+   BLOG POST BLOCK
    ========================================================= */
 
 .post_preview {
 
-    padding: 2.5rem 0;
+    background-color: #fffaf2;
 
-    border-bottom:
-        1px solid
+    border: 1px solid
         rgba(31, 76, 76, 0.25);
+
+    border-left: 5px solid #1f4c4c;
+
+    border-radius: 4px;
+
+    padding: 2rem 2.2rem;
+
+    margin-bottom: 2rem;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.post_preview:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 5px 15px
+        rgba(0, 0, 0, 0.08);
 
 }
 
@@ -396,9 +424,9 @@ a{
 
     font-size: 0.78rem;
 
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
 
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.7rem;
 
 }
 
@@ -409,17 +437,17 @@ a{
 
 .post_preview_title {
 
-    margin: 0 0 0.8rem;
-
     color: #1f4c4c;
 
     font-family: Georgia, serif;
 
-    font-size: 1.8rem;
+    font-size: 1.7rem;
 
     font-weight: 500;
 
-    line-height: 1.3;
+    line-height: 1.35;
+
+    margin: 0 0 1rem;
 
 }
 
@@ -432,11 +460,11 @@ a{
 
     color: #333;
 
-    font-size: 0.98rem;
+    font-size: 0.96rem;
 
     line-height: 1.8;
 
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
 
 }
 
@@ -447,24 +475,36 @@ a{
 
 .read_link {
 
+    display: inline-block;
+
     color: #1f4c4c;
 
     text-decoration: none;
 
     font-size: 0.9rem;
 
+    font-weight: bold;
+
+    border-bottom:
+        1px solid
+        transparent;
+
+    transition:
+        border-color 0.2s ease;
+
 }
 
 
 .read_link:hover {
 
-    text-decoration: underline;
+    border-bottom-color:
+        #1f4c4c;
 
 }
 
 
 /* =========================================================
-   ARTICLE
+   ARTICLE PAGE
    ========================================================= */
 
 .article_container {
@@ -479,7 +519,25 @@ a{
 
 
 /* =========================================================
-   BACK LINK
+   ARTICLE
+   ========================================================= */
+
+.article {
+
+    background-color: #fffaf2;
+
+    border: 1px solid
+        rgba(31, 76, 76, 0.25);
+
+    border-radius: 4px;
+
+    padding: 3rem;
+
+}
+
+
+/* =========================================================
+   BACK
    ========================================================= */
 
 .back_link {
@@ -492,7 +550,7 @@ a{
 
     font-size: 0.85rem;
 
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 
 }
 
@@ -527,13 +585,15 @@ a{
 
     color: #1f4c4c;
 
+    font-family: Georgia, serif;
+
     font-size: 2.5rem;
 
     font-weight: 500;
 
-    line-height: 1.25;
+    line-height: 1.3;
 
-    margin: 0 0 2.5rem;
+    margin: 0 0 2rem;
 
 }
 
@@ -546,6 +606,8 @@ a{
 
     color: #222;
 
+    font-family: Georgia, serif;
+
     font-size: 1rem;
 
     line-height: 1.9;
@@ -553,17 +615,21 @@ a{
 }
 
 
-/* Paragraphs */
+/* =========================================================
+   ARTICLE PARAGRAPHS
+   ========================================================= */
 
 .article_content p {
 
     margin:
-        0 0 1.4rem;
+        0 0 1.5rem;
 
 }
 
 
-/* Headings */
+/* =========================================================
+   ARTICLE HEADINGS
+   ========================================================= */
 
 .article_content h1,
 .article_content h2,
@@ -578,7 +644,9 @@ a{
 }
 
 
-/* Images */
+/* =========================================================
+   ARTICLE IMAGES
+   ========================================================= */
 
 .article_content img {
 
@@ -594,7 +662,9 @@ a{
 }
 
 
-/* Links */
+/* =========================================================
+   ARTICLE LINKS
+   ========================================================= */
 
 .article_content a {
 
@@ -603,7 +673,9 @@ a{
 }
 
 
-/* Blockquotes */
+/* =========================================================
+   BLOCKQUOTE
+   ========================================================= */
 
 .article_content blockquote {
 
@@ -627,9 +699,9 @@ a{
 
 .article_bottom {
 
-    margin-top: 4rem;
+    margin-top: 3rem;
 
-    padding-top: 2rem;
+    padding-top: 1.5rem;
 
     border-top:
         1px solid
@@ -639,31 +711,18 @@ a{
 
 
 /* =========================================================
-   LOADING
+   LOADING / ERROR
    ========================================================= */
 
-.loading {
+.loading,
+.error-message,
+.no-posts {
 
     text-align: center;
 
-    color: #555;
-
-    padding: 4rem 0;
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-.error-message {
-
-    text-align: center;
+    padding: 4rem 1rem;
 
     color: #555;
-
-    padding: 4rem 0;
 
 }
 
@@ -674,28 +733,50 @@ a{
 
 @media (max-width: 650px) {
 
-    .blog_container,
-    .article_container {
+    .blog_container {
 
         margin-top: 2.5rem;
 
-        padding:
-            0 1.2rem;
+        padding: 0 1rem;
 
     }
 
 
     .post_preview {
 
-        padding:
-            2rem 0;
+        padding: 1.5rem;
+
+        margin-bottom: 1.5rem;
 
     }
 
 
     .post_preview_title {
 
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+
+    }
+
+
+    .post_preview_excerpt {
+
+        font-size: 0.92rem;
+
+    }
+
+
+    .article_container {
+
+        margin-top: 2.5rem;
+
+        padding: 0 1rem;
+
+    }
+
+
+    .article {
+
+        padding: 1.5rem;
 
     }
 
@@ -704,19 +785,9 @@ a{
 
         font-size: 2rem;
 
-        margin-bottom:
-            1.8rem;
-
-    }
-
-
-    .article_content {
-
-        font-size: 0.98rem;
-
-        line-height: 1.8;
-
     }
 
 }
+
+
 
