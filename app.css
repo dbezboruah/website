@@ -220,6 +220,10 @@ width: 100%;
 }
 
 /*-----------css for small screen----------*/
+/* =========================================================
+   MOBILE VERSION
+   ========================================================= */
+
 @media only screen and (max-width: 600px) {
 
     #header {
@@ -227,9 +231,29 @@ width: 100%;
 
         background-size: auto 100%;
 
-        background-position: 55% center;
+        background-position: 50% center;
 
         background-repeat: no-repeat;
+    }
+
+
+    nav {
+        align-items: flex-start;
+    }
+
+
+    .header-text {
+        font-size: 17px;
+    }
+
+
+    nav ul li {
+        margin: 8px 6px;
+    }
+
+
+    nav ul li a {
+        font-size: 14px;
     }
 
 }
