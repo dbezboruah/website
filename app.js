@@ -1,6 +1,6 @@
 /* =========================================================
    BEBERIBANG BLOG
-   Load posts from posts.json
+   Blogger content displayed on GitHub Pages
    ========================================================= */
 
 const POSTS_FILE = "./posts.json";
@@ -26,8 +26,8 @@ async function loadPosts() {
         if (!response.ok) {
 
             throw new Error(
-                "Could not load posts.json. Status: "
-                + response.status
+                "Could not load posts.json. Status: " +
+                response.status
             );
 
         }
@@ -35,12 +35,6 @@ async function loadPosts() {
 
         const posts =
             await response.json();
-
-
-        console.log(
-            "Posts loaded:",
-            posts
-        );
 
 
         if (
@@ -55,24 +49,17 @@ async function loadPosts() {
             `;
 
             return;
-
         }
 
 
-        /* Show the posts */
+        /* Store posts globally */
 
-        blogList.innerHTML = "";
+        window.blogPosts = posts;
 
 
-        posts.forEach(
-            post => {
+        /* Display the grid */
 
-                blogList.appendChild(
-                    createPost(post)
-                );
-
-            }
-        );
+        showAllPosts();
 
 
     } catch (error) {
@@ -105,7 +92,93 @@ async function loadPosts() {
 
 
 /* =========================================================
-   CREATE POST PREVIEW
+   DISPLAY ALL POSTS
+   ========================================================= */
+
+function showAllPosts() {
+
+    const blogList =
+        document.getElementById("blogList");
+
+    const articleView =
+        document.getElementById("articleView");
+
+
+    /* Hide article */
+
+    articleView.style.display =
+        "none";
+
+
+    /* Show blog grid */
+
+    blogList.style.display =
+        "grid";
+
+
+    /* Clear current grid */
+
+    blogList.innerHTML = "";
+
+
+    /* Make sure posts exist */
+
+    if (
+        !window.blogPosts ||
+        window.blogPosts.length === 0
+    ) {
+
+        blogList.innerHTML = `
+            <p class="no-posts">
+                No posts available.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    /* Create cards */
+
+    window.blogPosts.forEach(
+        post => {
+
+            blogList.appendChild(
+                createPost(post)
+            );
+
+        }
+    );
+
+
+    /* Remove article hash */
+
+    if (
+        window.location.hash
+    ) {
+
+        history.replaceState(
+            null,
+            "",
+            window.location.pathname
+        );
+
+    }
+
+
+    /* Return to top */
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   CREATE POST CARD
    ========================================================= */
 
 function createPost(post) {
@@ -119,7 +192,8 @@ function createPost(post) {
 
 
     const title =
-        post.title || "Untitled";
+        post.title ||
+        "Untitled";
 
 
     const date =
@@ -127,23 +201,34 @@ function createPost(post) {
 
 
     const excerpt =
-        post.excerpt || "";
+        post.excerpt ||
+        "";
 
 
     article.innerHTML = `
 
-        <div class="post_preview_date">
-            ${date}
-        </div>
+        <div>
+
+            <div class="post_preview_date">
+
+                ${date}
+
+            </div>
 
 
-        <h2 class="post_preview_title">
-            ${escapeHTML(title)}
-        </h2>
+            <h2 class="post_preview_title">
+
+                ${escapeHTML(title)}
+
+            </h2>
 
 
-        <div class="post_preview_excerpt">
-            ${escapeHTML(excerpt)}
+            <div class="post_preview_excerpt">
+
+                ${escapeHTML(excerpt)}
+
+            </div>
+
         </div>
 
 
@@ -151,12 +236,14 @@ function createPost(post) {
             href="#post-${encodeURIComponent(post.id)}"
             class="read_link">
 
-            Read Story →
+            Read story →
 
         </a>
 
     `;
 
+
+    /* Click event */
 
     article
         .querySelector(".read_link")
@@ -165,6 +252,15 @@ function createPost(post) {
             function(event) {
 
                 event.preventDefault();
+
+
+                history.pushState(
+                    null,
+                    "",
+                    "#post-" +
+                    encodeURIComponent(post.id)
+                );
+
 
                 showPost(post);
 
@@ -178,7 +274,7 @@ function createPost(post) {
 
 
 /* =========================================================
-   SHOW FULL POST
+   SHOW SINGLE ARTICLE
    ========================================================= */
 
 function showPost(post) {
@@ -190,9 +286,13 @@ function showPost(post) {
         document.getElementById("articleView");
 
 
+    /* Hide grid */
+
     blogList.style.display =
         "none";
 
+
+    /* Show article */
 
     articleView.style.display =
         "block";
@@ -206,7 +306,7 @@ function showPost(post) {
             <a
                 href="#"
                 class="back_link"
-                onclick="showAllPosts(); return false;">
+                id="backTop">
 
                 ← All posts
 
@@ -239,7 +339,7 @@ function showPost(post) {
                 <a
                     href="#"
                     class="back_link"
-                    onclick="showAllPosts(); return false;">
+                    id="backBottom">
 
                     ← Back to all posts
 
@@ -253,6 +353,38 @@ function showPost(post) {
     `;
 
 
+    /* Back links */
+
+    document
+        .getElementById("backTop")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                showAllPosts();
+
+            }
+        );
+
+
+    document
+        .getElementById("backBottom")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                showAllPosts();
+
+            }
+        );
+
+
+    /* Go to top */
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -262,40 +394,73 @@ function showPost(post) {
 
 
 /* =========================================================
-   SHOW ALL POSTS
+   BROWSER BACK BUTTON
    ========================================================= */
 
-function showAllPosts() {
+window.addEventListener(
+    "popstate",
+    function() {
 
-    const blogList =
-        document.getElementById("blogList");
+        handleURL();
 
-    const articleView =
-        document.getElementById("articleView");
-
-
-    articleView.style.display =
-        "none";
+    }
+);
 
 
-    blogList.style.display =
-        "block";
+/* =========================================================
+   HANDLE URL
+   ========================================================= */
+
+function handleURL() {
+
+    if (
+        !window.blogPosts
+    ) {
+
+        return;
+
+    }
 
 
-    window.location.hash =
-        "";
+    const hash =
+        window.location.hash;
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    if (
+        hash.startsWith("#post-")
+    ) {
+
+        const id =
+            decodeURIComponent(
+                hash.substring(6)
+            );
+
+
+        const post =
+            window.blogPosts.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (post) {
+
+            showPost(post);
+
+            return;
+
+        }
+
+    }
+
+
+    showAllPosts();
 
 }
 
 
 /* =========================================================
-   FORMAT DATE
+   DATE
    ========================================================= */
 
 function formatDate(dateString) {
@@ -347,3 +512,4 @@ function escapeHTML(text) {
    ========================================================= */
 
 loadPosts();
+
