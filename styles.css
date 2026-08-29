@@ -313,13 +313,13 @@ a{
 
 /*----------header-------------*/
 /* =========================================================
-   MINIMAL TEAL HEADER
+   HEADER
    ========================================================= */
 
 .site-header {
-    background-color: #1f4c4c;
-
     width: 100%;
+
+    background-color: #1f4c4c;
 
     color: white;
 }
@@ -330,7 +330,7 @@ a{
 
     margin: 0 auto;
 
-    padding: 1.2rem 1.5rem;
+    padding: 1.25rem 1.5rem;
 
     display: flex;
 
@@ -341,8 +341,13 @@ a{
 
 
 /* =========================================================
-   SITE TITLE
+   TITLE
    ========================================================= */
+
+.site-title {
+    margin: 0;
+}
+
 
 .site-title a {
     color: white;
@@ -351,11 +356,9 @@ a{
 
     font-family: Georgia, serif;
 
-    font-size: 1.45rem;
+    font-size: 1.5rem;
 
     font-weight: 500;
-
-    letter-spacing: 0.02em;
 }
 
 
@@ -368,7 +371,7 @@ a{
 
     align-items: center;
 
-    gap: 1.6rem;
+    gap: 1.7rem;
 }
 
 
@@ -379,9 +382,7 @@ a{
 
     font-family: Georgia, serif;
 
-    font-size: 0.88rem;
-
-    transition: opacity 0.2s ease;
+    font-size: 0.9rem;
 }
 
 
@@ -390,6 +391,34 @@ a{
 }
 
 
+/* =========================================================
+   BLOG INTRO
+   ========================================================= */
+
+.blog-intro {
+
+    max-width: 1100px;
+
+    margin: 3.5rem auto 2rem;
+
+    padding: 0 1.5rem;
+
+}
+
+
+.blog-intro p {
+
+    margin: 0;
+
+    color: #1f4c4c;
+
+    font-family: Georgia, serif;
+
+    font-size: 1.1rem;
+
+    font-style: italic;
+
+}
 /* =========================================================
    MOBILE
    ========================================================= */
@@ -400,23 +429,24 @@ a{
         padding: 1rem;
     }
 
-
     .site-title a {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
     }
-
 
     .site-nav {
         gap: 0.9rem;
     }
 
-
     .site-nav a {
         font-size: 0.78rem;
     }
 
-}
+    .blog-intro {
+        margin-top: 2.5rem;
+        padding: 0 1rem;
+    }
 
+}
 
  /* =========================================================
    BLOG GRID
