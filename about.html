@@ -11,68 +11,26 @@
 
         <!---<h1>Etee Ritee Nitee</h1> -->
 
-        <header>
-            <h1>Though my lens</h1>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="blog.html">Blog</a>
-                <a href="about.html">About</a>
-             </nav>
-        </header>
-          
-    <main>
+        <section class="gallery-section">
 
-        <!-- ==================== PHOTO GRID BLOCK 1 (Original) ==================== -->
-        <div class="top">
-            <div class="responsive-container-block bigContainer">
-                <p>I love travel, food, cinema. Feel free to browse some of my snapshots.</p>
-                <div class="responsive-container-block Container">
-                    <!-- Left Big Photo -->
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <img class="bigImg" src="images/shadow.jpeg">
-                    </div>
-                    <!-- Right Side Stacked Photos -->
-                    <div class="responsive-container-block sideImgContainer">
-                        <div class="responsive-cell-block wk-desk-12 wk-ipadp-12 wk-tab-12 wk-mobile-12 side">
-                            <img class="sideImg" src="images/story.jpeg">
-                        </div>
-                        <div class="responsive-cell-block wk-desk-12 wk-ipadp-12 wk-tab-12 wk-mobile-12 side">
-                            <img class="sideImg" src="images/WhatsApp Image 2026-05-30 at 18.26.37.jpeg">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ==================== END OF BLOCK 1 ==================== -->
+    <h2>Though my lens</h2>
 
+    <p class="gallery-intro">
+        I love travel, food, cinema.
+        Feel free to browse some of my snapshots.
+    </p>
 
-        <!-- ==================== PHOTO GRID BLOCK 2 (New) ==================== -->
-        <!-- This maintains your exact layout structure. Simply change the src images below. -->
-        <div class="top" style="margin-top: 20px;"> <!-- Added small margin-top to separate the blocks nicely -->
-            <div class="responsive-container-block bigContainer">
-                <div class="responsive-container-block Container">
-                    <!-- Left Big Photo -->
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <img class="bigImg" src="images/WhatsApp Image 2026-05-30 at 18.26.38.jpeg">
-                    </div>
-                    <!-- Right Side Stacked Photos -->
-                    <div class="responsive-container-block sideImgContainer">
-                        <div class="responsive-cell-block wk-desk-12 wk-ipadp-12 wk-tab-12 wk-mobile-12 side">
-                            <img class="sideImg" src="images/WhatsApp Image 2026-05-30 at 18.26.39 (1).jpeg">
-                        </div>
-                        <div class="responsive-cell-block wk-desk-12 wk-ipadp-12 wk-tab-12 wk-mobile-12 side">
-                            <img class="sideImg" src="images/WhatsApp Image 2026-05-30 at 18.26.40 (4).jpeg">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ==================== END OF BLOCK 2 ==================== -->
+    <div
+        id="gallery"
+        class="gallery-grid">
 
+        <p class="gallery-loading">
+            Loading...
+        </p>
 
-        <!-- 💡 FUTURE PHOTO GRIDS GO RIGHT HERE BELOW THIS LINE 💡 -->
-        <!-- Whenever you have 3 new photos, copy Block 2 and paste it here! -->
+    </div>
 
+</section>
 
     </main>
         <hr>
@@ -93,6 +51,8 @@
  <div class="copyright">
         <p>© Dharitree Bezboruah</p>
     </div>
+    
+<script src="gallery.js"></script>
 
 </body>
 </html>
