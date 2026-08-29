@@ -1,0 +1,176 @@
+name: Update Blog Posts
+
+on:
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: "*/30 * * * *"
+
+
+jobs:
+
+  update-blog:
+
+    runs-on: ubuntu-latest
+
+
+    permissions:
+      contents: write
+
+
+    steps:
+
+      - name: Checkout repository
+
+        uses: actions/checkout@v4
+
+
+      - name: Download Blogger feed
+
+        run: |
+
+          curl -L \
+            "https://dorislittlenotes.blogspot.com/feeds/posts/default?alt=json&max-results=50" \
+            -o blogger.json
+
+
+      - name: Generate posts.json
+
+        run: |
+
+          python3 <<'PY'
+
+          import json
+          import html
+          import re
+
+
+          with open(
+              "blogger.json",
+              "r",
+              encoding="utf-8"
+          ) as f:
+
+              data = json.load(f)
+
+
+          entries = \
+              data["feed"].get("entry", [])
+
+
+          posts = []
+
+
+          for entry in entries:
+
+              title = \
+                  entry["title"]["$t"]
+
+
+              post_id = \
+                  entry["id"]["$t"].split(".post-")[-1]
+
+
+              published = \
+                  entry["published"]["$t"]
+
+
+              content = \
+                  entry.get(
+                      "content",
+                      entry.get("summary", {})
+                  ).get("$t", "")
+
+
+              # Remove scripts
+
+              clean_content = re.sub(
+                  r"<script.*?</script>",
+                  "",
+                  content,
+                  flags=re.DOTALL
+              )
+
+
+              # Create plain text excerpt
+
+              text = re.sub(
+                  r"<[^>]+>",
+                  " ",
+                  clean_content
+              )
+
+
+              text = html.unescape(text)
+
+              text = re.sub(
+                  r"\s+",
+                  " ",
+                  text
+              ).strip()
+
+
+              excerpt = text[:280]
+
+              if len(text) > 280:
+                  excerpt += "..."
+
+
+              posts.append({
+
+                  "id": post_id,
+
+                  "title": title,
+
+                  "date": published,
+
+                  "excerpt":
+                      html.escape(excerpt),
+
+                  "content":
+                      clean_content
+
+              })
+
+
+          with open(
+              "posts.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
+
+              json.dump(
+                  posts,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+          PY
+
+
+      - name: Commit changes
+
+        run: |
+
+          git config \
+            user.name "github-actions[bot]"
+
+          git config \
+            user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+          git add posts.json
+
+
+          git diff \
+            --cached \
+            --quiet \
+            || git commit \
+                -m "Update blog posts"
+
+
+          git push
+
