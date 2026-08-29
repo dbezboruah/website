@@ -363,21 +363,30 @@ a{
 
 /*----------header-------------*/
 /* =========================================================
-   MINIMAL HEADER
+   MINIMAL TEAL HEADER
    ========================================================= */
 
-.header-container {
+.site-header {
+    background-color: #1f4c4c;
+
+    width: 100%;
+
+    color: white;
+}
+
+
+.header-inner {
     max-width: 1100px;
 
     margin: 0 auto;
 
-    padding: 4rem 1.5rem 2rem;
+    padding: 1.2rem 1.5rem;
 
-    text-align: center;
+    display: flex;
 
-    background: transparent;
+    align-items: center;
 
-    color: #1f4c4c;
+    justify-content: space-between;
 }
 
 
@@ -385,14 +394,14 @@ a{
    SITE TITLE
    ========================================================= */
 
-.header_title {
-    margin: 0;
+.site-title a {
+    color: white;
 
-    color: #1f4c4c;
+    text-decoration: none;
 
     font-family: Georgia, serif;
 
-    font-size: 2.4rem;
+    font-size: 1.45rem;
 
     font-weight: 500;
 
@@ -401,55 +410,62 @@ a{
 
 
 /* =========================================================
-   SUBTITLE
-   ========================================================= */
-
-.header_desc {
-    margin: 0.3rem 0 1.5rem;
-
-    color: #555;
-
-    font-family: Georgia, serif;
-
-    font-size: 0.9rem;
-
-    font-style: italic;
-}
-
-
-/* =========================================================
    NAVIGATION
    ========================================================= */
 
-.nav_menu {
+.site-nav {
     display: flex;
 
-    justify-content: center;
+    align-items: center;
 
-    gap: 1.8rem;
-
-    margin-top: 1.5rem;
+    gap: 1.6rem;
 }
 
 
-.nav_menu a {
-    color: #1f4c4c;
+.site-nav a {
+    color: white;
 
     text-decoration: none;
 
     font-family: Georgia, serif;
 
-    font-size: 0.85rem;
+    font-size: 0.88rem;
 
     transition: opacity 0.2s ease;
 }
 
 
-.nav_menu a:hover {
-    opacity: 0.55;
+.site-nav a:hover {
+    opacity: 0.65;
 }
 
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .header-inner {
+        padding: 1rem;
+    }
+
+
+    .site-title a {
+        font-size: 1.2rem;
+    }
+
+
+    .site-nav {
+        gap: 0.9rem;
+    }
+
+
+    .site-nav a {
+        font-size: 0.78rem;
+    }
+
+}
 
 
  /* =========================================================
