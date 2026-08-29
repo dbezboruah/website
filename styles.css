@@ -2,6 +2,56 @@
 padding: 0;
 box-sizing: border-box}
 
+body {
+    font-family: Georgia, serif;
+
+    background-color: #f6ebda;
+
+    color: #1c1c1c;
+
+    margin: 0;
+
+    line-height: 1.7;
+}
+
+.container {
+    width: 100%;
+}
+
+.post_preview {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+
+    background-color: #fffaf2;
+
+    border: 1px solid rgba(31, 76, 76, 0.18);
+
+    border-radius: 12px;
+
+    padding: 1.7rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease;
+}
+
+.post_preview:hover {
+    transform: translateY(-3px);
+
+    box-shadow: none;
+}
 
 body{height:100%;
 width: 100%;
@@ -312,50 +362,92 @@ a{
 
 
 /*----------header-------------*/
+/* =========================================================
+   MINIMAL HEADER
+   ========================================================= */
+
 .header-container {
-    background-color:  #581845; /* solid purple */
-    color: white;
-    padding: 2rem 1rem;
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 4rem 1.5rem 2rem;
+
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    background: transparent;
+
+    color: #1f4c4c;
 }
+
+
+/* =========================================================
+   SITE TITLE
+   ========================================================= */
 
 .header_title {
-    font-size: 2.2rem;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-    letter-spacing: 1px;
+    margin: 0;
+
+    color: #1f4c4c;
+
+    font-family: Georgia, serif;
+
+    font-size: 2.4rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.02em;
 }
 
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
 .header_desc {
-    font-size: 1rem;
+    margin: 0.3rem 0 1.5rem;
+
+    color: #555;
+
+    font-family: Georgia, serif;
+
+    font-size: 0.9rem;
+
     font-style: italic;
-    color: #e0dfff;
-    margin-bottom: 1rem;
-    opacity: 0.95;
 }
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 .nav_menu {
     display: flex;
+
     justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
+
+    gap: 1.8rem;
+
+    margin-top: 1.5rem;
 }
+
 
 .nav_menu a {
-    color: white;
+    color: #1f4c4c;
+
     text-decoration: none;
-    font-weight: 500;
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.3s ease;
+
+    font-family: Georgia, serif;
+
+    font-size: 0.85rem;
+
+    transition: opacity 0.2s ease;
 }
+
 
 .nav_menu a:hover {
-    border-color: white;
+    opacity: 0.55;
 }
-
-
 
 
 
