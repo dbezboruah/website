@@ -220,8 +220,18 @@ width: 100%;
 }
 
 /*-----------css for small screen----------*/
-@media only screen and (max-width: 600ps){
-  
+@media only screen and (max-width: 600px) {
+
+    #header {
+        height: 65vh;
+
+        background-size: auto 100%;
+
+        background-position: 55% center;
+
+        background-repeat: no-repeat;
+    }
+
 }
 
 
