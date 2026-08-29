@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    BEBERIBANG BLOG
    Load posts from posts.json
@@ -348,4 +347,3 @@ function escapeHTML(text) {
    ========================================================= */
 
 loadPosts();
-```
