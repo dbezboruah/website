@@ -316,13 +316,15 @@ a{
    HEADER
    ========================================================= */
 
-.site-header {
+header {
     background-color: #1f4c4c;
-      color: white;
-      padding: 1.4rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.2rem 2rem;
 }
 
 
@@ -330,19 +332,12 @@ a{
    TITLE
    ========================================================= */
 
-.site-title {
+header h1 {
     margin: 0;
-}
-
-
-.site-title a {
-    color: white;
-
-    text-decoration: none;
 
     font-family: Georgia, serif;
 
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 
     font-weight: 500;
 }
@@ -352,16 +347,16 @@ a{
    NAVIGATION
    ========================================================= */
 
-.site-nav {
+header nav {
     display: flex;
 
     align-items: center;
 
-    gap: 1.7rem;
+    gap: 1.5rem;
 }
 
 
-.site-nav a {
+header nav a {
     color: white;
 
     text-decoration: none;
@@ -372,10 +367,34 @@ a{
 }
 
 
-.site-nav a:hover {
+header nav a:hover {
     opacity: 0.65;
 }
 
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    header {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.25rem;
+    }
+
+    header nav {
+        gap: 0.8rem;
+    }
+
+    header nav a {
+        font-size: 0.75rem;
+    }
+
+}
 
 /* =========================================================
    BLOG INTRO
@@ -404,6 +423,20 @@ a{
 
     font-style: italic;
 
+}
+
+.blog-subtitle {
+    text-align: center;
+
+    margin: 3rem auto 2rem;
+
+    color: #1f4c4c;
+
+    font-family: Georgia, serif;
+
+    font-size: 1.1rem;
+
+    font-style: italic;
 }
 /* =========================================================
    MOBILE
