@@ -329,7 +329,7 @@ function showPost(post) {
 
             <div class="article_content">
 
-                 ${cleanBloggerContent(post.content || "")}
+                ${post.content || ""}
 
             </div>
 
@@ -504,42 +504,6 @@ function escapeHTML(text) {
 
     return div.innerHTML;
 
-}
-
-function cleanBloggerContent(content) {
-
-    const container =
-        document.createElement("div");
-
-    container.innerHTML = content;
-
-
-    /* Remove Blogger's inline formatting */
-
-    container
-        .querySelectorAll("*")
-        .forEach(element => {
-
-            element.style.removeProperty(
-                "background-color"
-            );
-
-            element.style.removeProperty(
-                "color"
-            );
-
-            element.style.removeProperty(
-                "font-family"
-            );
-
-            element.style.removeProperty(
-                "font-size"
-            );
-
-        });
-
-
-    return container.innerHTML;
 }
 
 
