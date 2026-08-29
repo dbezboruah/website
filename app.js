@@ -151,7 +151,7 @@ function createPost(post) {
             href="#post-${encodeURIComponent(post.id)}"
             class="read_link">
 
-            Read →
+            Read Story →
 
         </a>
 
