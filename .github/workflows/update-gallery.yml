@@ -1,0 +1,94 @@
+name: Update Gallery
+
+on:
+  push:
+    paths:
+      - 'gallery/**'
+      - '.github/workflows/update-gallery.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-gallery:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate gallery.json
+        run: |
+
+          python3 << 'PY'
+
+          import json
+          import os
+
+          gallery_dir = "gallery"
+
+          allowed_extensions = {
+              ".jpg",
+              ".jpeg",
+              ".png",
+              ".webp"
+          }
+
+          images = []
+
+          for filename in sorted(os.listdir(gallery_dir)):
+
+              filepath = os.path.join(
+                  gallery_dir,
+                  filename
+              )
+
+              if not os.path.isfile(filepath):
+                  continue
+
+              extension = os.path.splitext(
+                  filename
+              )[1].lower()
+
+              if extension not in allowed_extensions:
+                  continue
+
+              images.append({
+                  "filename": filename,
+                  "src": "gallery/" + filename
+              })
+
+
+          with open(
+              "gallery.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
+
+              json.dump(
+                  images,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+          PY
+
+
+      - name: Commit gallery.json
+        run: |
+
+          git config user.name "github-actions[bot]"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add gallery.json
+
+          git diff --cached --quiet || \
+            git commit -m "Update gallery"
+
+          git push
