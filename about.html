@@ -1,95 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dori's World</title>
-        <link rel="stylesheet" href="styles.css">
-        <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
-    </head>
 
-    
-    
-    <body>
-    
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Dori's World</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css">
+
+    <script
+        src="https://kit.fontawesome.com/2d462008c1.js"
+        crossorigin="anonymous">
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
     <header>
-    <h1>Dharitree Bezboruah</h1>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="index_old.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="about.html">Gallery</a>
-    </nav>
-  </header>
+        <h1>Dharitree Bezboruah</h1>
 
-        <!---<h1>Etee Ritee Nitee</h1> -->
+        <nav>
 
-       <section class="gallery-section">
+            <a href="index.html">
+                Home
+            </a>
 
-    <h2>Though my lens</h2>
+            <a href="index_old.html">
+                About
+            </a>
 
-    <p class="gallery-intro">
-        I love travel, food, cinema.
-        Feel free to browse some of my snapshots.
-    </p>
+            <a href="blog.html">
+                Blog
+            </a>
 
-    <div id="gallery" class="gallery-grid">
+            <a href="about.html">
+                Gallery
+            </a>
 
-        <p class="gallery-loading">
-            Loading...
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         GALLERY
+         ===================================================== -->
+
+    <main>
+
+        <section class="gallery-section">
+
+            <h2>
+                Though my lens
+            </h2>
+
+            <p class="gallery-intro">
+                I love travel, food, cinema.
+                Feel free to browse some of my snapshots.
+            </p>
+
+
+            <div
+                id="gallery"
+                class="gallery-grid">
+
+                <p class="gallery-loading">
+                    Loading...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <hr>
+
+
+    <footer id="footer">
+
+        <div class="container-fluid">
+
+            <div class="social-icons">
+
+                <a
+                    href="https://www.facebook.com/dharitree.bezboruah/"
+                    target="_blank">
+
+                    <i class="fab fa-facebook"></i>
+
+                </a>
+
+
+                <a
+                    href="https://www.instagram.com/dharitreebezboruah/"
+                    target="_blank">
+
+                    <i class="fab fa-instagram"></i>
+
+                </a>
+
+
+                <a
+                    href="https://x.com/Dbezsky911/"
+                    target="_blank">
+
+                    <i class="fab fa-twitter"></i>
+
+                </a>
+
+
+                <a
+                    href="https://www.linkedin.com/in/dharitree-bezboruah-b24027205/"
+                    target="_blank">
+
+                    <i class="fab fa-linkedin"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <div class="copyright">
+
+        <p>
+            © Dharitree Bezboruah
         </p>
 
     </div>
 
-</section>
 
-    </main>
-        <hr>
-        <!-- footer section-->
- <footer id="footer">
-    <div class="container-fluid">
-        <!-- social media icons -->
-        <div class="social-icons">
-            <a href="https://www.facebook.com/dharitree.bezboruah/" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/dharitreebezboruah/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/Dbezsky911/" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/in/dharitree-bezboruah-b24027205/" target="_blank"><i class="fab fa-linkedin"></i></a>
-        </div>
+    <!-- =====================================================
+         LIGHTBOX
+         ===================================================== -->
+
+    <div
+        id="galleryLightbox"
+        class="gallery-lightbox">
+
+        <button
+            type="button"
+            id="lightboxClose"
+            class="lightbox-close"
+            aria-label="Close photograph">
+
+            &times;
+
+        </button>
+
+
+        <img
+            id="lightboxImage"
+            class="lightbox-image"
+            src=""
+            alt="">
+
     </div>
-</footer>
 
- <div class="copyright">
-        <p>© Dharitree Bezboruah</p>
-    </div>
 
-<!-- =====================================================
-     GALLERY LIGHTBOX
-     ===================================================== -->
+    <!-- =====================================================
+         GALLERY JAVASCRIPT
+         ===================================================== -->
 
-<div
-    id="galleryLightbox"
-    class="gallery-lightbox">
+    <script src="gallery.js"></script>
 
-    <button
-        type="button"
-        id="lightboxClose"
-        class="lightbox-close"
-        aria-label="Close photograph">
-
-        &times;
-
-    </button>
-
-    <img
-        id="lightboxImage"
-        class="lightbox-image"
-        src=""
-        alt="">
-
-</div>
-    
-<script src="gallery.js"></script>
 
 </body>
+
 </html>
