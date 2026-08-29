@@ -400,31 +400,6 @@ header nav a:hover {
    BLOG INTRO
    ========================================================= */
 
-.blog-intro {
-
-    max-width: 1100px;
-
-    margin: 3.5rem auto 2rem;
-
-    padding: 0 1.5rem;
-
-}
-
-
-.blog-intro p {
-
-    margin: 0;
-
-    color: #1f4c4c;
-
-    font-family: Georgia, serif;
-
-    font-size: 1.1rem;
-
-    font-style: italic;
-
-}
-
 .blog-subtitle {
     text-align: center;
 
@@ -434,7 +409,7 @@ header nav a:hover {
 
     font-family: Georgia, serif;
 
-    font-size: 1.1rem;
+    font-size: 1.8rem;
 
     font-style: italic;
 }
