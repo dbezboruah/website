@@ -3,211 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
-  <title>CV / Portfolio - Dharitree Bezboruah</title> 
-  <link rel="stylesheet" href="styles.css" />
+
+  <title>CV / Portfolio - Dharitree Bezboruah</title>
+
   <style>
+    /* ===== Base ===== */
+
     body {
       font-family: 'Georgia', serif;
       background-color: #f6ebda;
-      margin: 0;
       color: #1c1c1c;
+      margin: 0;
       line-height: 1.7;
     }
 
     /* ===== Header ===== */
+
     header {
       background-color: #1f4c4c;
       color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding: 1.4rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2.2rem;
+      font-size: 1.5rem;
       font-weight: 500;
-      letter-spacing: 1px;
-    }
-
-    nav {
-      margin-top: 0.8rem;
+      letter-spacing: 0.5px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin: 0 1.2rem;
-      font-size: 1rem;
-      position: relative;
-      transition: opacity 0.3s ease;
+      margin-left: 1.5rem;
+      font-size: 0.95rem;
     }
 
     nav a:hover {
-      opacity: 0.8;
+      opacity: 0.7;
     }
 
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -4px;
-      width: 0;
-      height: 2px;
-      background: white;
-      transition: width 0.3s ease;
+    /* ===== Main ===== */
+
+    main {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
     }
 
-    nav a:hover::after {
-      width: 100%;
+    /* ===== Profile ===== */
+
+    .profile {
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(31, 76, 76, 0.3);
     }
 
-    /* ===== Profile Card ===== */
-    .profile-card {
-      background: white;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-left: 6px solid #1f4c4c;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      text-align: center;
-      animation: fadeInUp 1s ease;
-    }
-
-    .profile-card h2 {
-      margin: 0;
-      font-size: 1.9rem;
+    .profile h2 {
+      margin: 0 0 0.3rem;
       color: #1f4c4c;
+      font-size: 2rem;
+      font-weight: 500;
     }
 
-    .profile-card p {
-      margin: 0.5rem 0 0;
-      font-size: 1rem;
-      color: #333;
+    .profile p {
+      margin: 0.2rem 0;
+      color: #444;
     }
 
-    /* ===== Grid Layout for Row 1 ===== */
-    .cv-container {
+    .profile .specialization {
+      font-size: 0.95rem;
+    }
+
+    /* ===== Two Column Section ===== */
+
+    .two-column {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      max-width: 1000px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
+      gap: 4rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(31, 76, 76, 0.3);
     }
 
-    .column {
-      background: #fffaf2;
-      padding: 1.5rem;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeIn 1.2s ease;
-    }
+    /* ===== Sections ===== */
 
-    .column:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    }
-
-    /* ===== Full-width Sections ===== */
-    .full-section {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-      animation: fadeIn 1.2s ease;
+    section {
+      margin-bottom: 2.5rem;
     }
 
     .section-title {
-      font-size: 1.4rem;
       color: #1f4c4c;
-      margin: 0 0 1rem;
-      border-bottom: 2px solid #1f4c4c33;
-      padding-bottom: 0.3rem;
+      font-size: 1.2rem;
       font-weight: bold;
-      position: relative;
+      margin: 0 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(31, 76, 76, 0.25);
     }
 
-    .section-title::after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: #1f4c4c;
-      transition: width 0.3s ease;
+    .entry-title {
+      font-weight: bold;
+      margin-bottom: 0.2rem;
     }
 
-    .section-title:hover::after {
-      width: 100%;
+    .entry-details {
+      color: #444;
+      font-size: 0.95rem;
     }
+
+    /* ===== Lists ===== */
 
     ul {
-      margin: 0.5rem 0 1.5rem 1.2rem;
-      padding: 0;
+      margin: 0;
+      padding-left: 1.2rem;
     }
 
     li {
-      margin-bottom: 0.6rem;
-      transition: transform 0.2s ease, color 0.2s ease;
+      margin-bottom: 0.65rem;
     }
 
-    li:hover {
-      transform: translateX(6px);
-      color: #163737;
+    /* ===== Publications ===== */
+
+    .publications {
+      padding-top: 2.5rem;
     }
 
-    /* ===== Download Button ===== */
+    .publication-list li {
+      margin-bottom: 1rem;
+    }
+
+    /* ===== Talks ===== */
+
+    .talks {
+      padding-top: 0.5rem;
+    }
+
+    /* ===== CV Button ===== */
+
+    .cv-download {
+      text-align: center;
+      padding: 1rem 0 3rem;
+    }
+
     .download-btn {
       display: inline-block;
-      margin: 2rem auto 0;
       background-color: #1f4c4c;
       color: white;
-      padding: 0.9rem 1.6rem;
+      padding: 0.7rem 1.3rem;
       text-decoration: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: all 0.3s ease;
+      border-radius: 3px;
+      font-size: 0.9rem;
     }
 
     .download-btn:hover {
       background-color: #163737;
-      transform: scale(1.07);
     }
 
     /* ===== Footer ===== */
+
     footer {
-      text-align: center;
-      padding: 2rem 1rem;
       background-color: #1f4c4c;
       color: white;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      animation: fadeIn 1.5s ease;
+      text-align: center;
+      padding: 1.5rem;
     }
 
-    /* ===== Animations ===== */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .social-icons a {
+      color: white;
+      text-decoration: none;
+      margin: 0 0.6rem;
+      font-size: 1.1rem;
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .social-icons a:hover {
+      opacity: 0.7;
+    }
+
+    .copyright {
+      background-color: #1f4c4c;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 0 1rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .copyright p {
+      margin: 0;
+    }
+
+    /* ===== Mobile ===== */
+
+    @media (max-width: 700px) {
+
+      header {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+      }
+
+      nav a {
+        margin: 0 0.5rem;
+      }
+
+      main {
+        padding: 2rem 1.2rem;
+      }
+
+      .two-column {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .profile h2 {
+        font-size: 1.7rem;
+      }
     }
   </style>
 </head>
+
 <body>
+
+  <!-- Header -->
 
   <header>
     <h1>CV / Portfolio</h1>
+
     <nav>
       <a href="index.html">Home</a>
       <a href="index_old.html">About</a>
@@ -216,87 +239,209 @@
     </nav>
   </header>
 
-  <!-- Profile Card -->
-  <section class="profile-card">
-    <h2>Dharitree Bezboruah</h2>
-    <p>PhD Scholar in Physics — Tezpur University, Assam</p>
-    <p>Specialization: Astroparticle Physics, Neutrinos & Cosmology</p>
-  </section>
 
-  <!-- Row 1: Occupation + Research Interests -->
-  <section class="cv-container">
-    <div class="column">
-      <h2 class="section-title">Current Occupation</h2>
-      <div class="entry">
-        <div class="entry-title">Tezpur University, Assam</div>
+  <!-- Main Content -->
+
+  <main>
+
+    <!-- Profile -->
+
+    <section class="profile">
+      <h2>Dharitree Bezboruah</h2>
+
+      <p>
+        PhD Scholar in Physics — Tezpur University, Assam
+      </p>
+
+      <p class="specialization">
+        Astroparticle Physics · Neutrino Phenomenology · Cosmology · Machine Learning
+      </p>
+    </section>
+
+
+    <!-- Occupation + Research -->
+
+    <div class="two-column">
+
+      <section>
+        <h2 class="section-title">Current Occupation</h2>
+
+        <div class="entry-title">
+          Tezpur University, Assam
+        </div>
+
         <div class="entry-details">
           PhD in Physics (ongoing)<br>
           Supervisor: Dr. Moon Moon Devi
         </div>
-      </div>
+      </section>
+
+
+      <section>
+        <h2 class="section-title">Research Interests</h2>
+
+        <ul>
+          <li>Astroparticle Physics</li>
+          <li>Neutrino Phenomenology</li>
+          <li>Cosmology & Machine Learning in Physics</li>
+        </ul>
+      </section>
+
     </div>
 
-    <div class="column">
-      <h2 class="section-title">Research Interests</h2>
-      <ul>
-        <li>Astroparticle Physics</li>
-        <li>Neutrino Phenomenology</li>
-        <li>Cosmology & Machine Learning in Physics</li>
+
+    <!-- Publications -->
+
+    <section class="publications">
+
+      <h2 class="section-title">Selected Publications</h2>
+
+      <ul class="publication-list">
+
+        <li>
+          <strong>
+            D. Bezboruah, D. S. Chattopadhyay, A. Medhi,
+            A. Sarker, M. M. Devi
+          </strong>,
+          “Neutrino Oscillations in Presence of Diagonal Elements
+          of Scalar NSI: An Analytic Approach”,
+          <em>JHEP 12 (2025) 222</em>
+          [arXiv:2410.05250]
+        </li>
+
+        <li>
+          <strong>
+            A. Sarker, A. Medhi, D. Bezboruah, M. M. Devi,
+            D. Dutta
+          </strong>,
+          “Impact of scalar NSI on the neutrino mass hierarchy
+          sensitivity at DUNE, HK, and KNO”,
+          <em>JHEP 06 (2024) 128</em>
+          [arXiv:2309.12249]
+        </li>
+
+        <li>
+          <strong>
+            A. Sarker, D. Bezboruah, A. Medhi, M. M. Devi,
+            D. Dutta
+          </strong>,
+          “The Sensitivity of DUNE in Presence of Off-Diagonal
+          Scalar NSI Parameters”,
+          <em>arXiv:2406.15307</em>
+        </li>
+
       </ul>
+
+    </section>
+
+
+    <!-- Talks & Conferences -->
+
+    <section class="talks">
+
+      <h2 class="section-title">Talks & Conferences</h2>
+
+      <ul>
+
+        <li>
+          “Analytic Approximation of Neutrino Oscillations in
+          Presence of Scalar NSI” — TU-GradSciCon-2025
+        </li>
+
+        <li>
+          “Effect of scalar NSI on neutrino oscillations:
+          An Analytic Approach (Poster)” —
+          XXVI DAE-BRNS High Energy Physics Symposium 2024.
+          <em>[Best Poster, Honorable Mention]</em>
+        </li>
+
+        <li>
+          “Dark Non-Standard Interaction and CP-phase measurement
+          at DUNE (Poster)” —
+          XXVI DAE-BRNS High Energy Physics Symposium 2024
+        </li>
+
+        <li>
+          “Impact of Scalar NSI on Neutrino Oscillations:
+          An Analytic Approach” — PANE-2024
+        </li>
+
+        <li>
+          “Probing Non-Standard Interactions and CP-violation
+          at DUNE via ν-oscillations (Poster)” — NEMA-X (2024)
+        </li>
+
+        <li>
+          “Machine learning model for separation of muons from
+          punch-through hadrons in EAS at GRAPES-3 experiment
+          (Poster)” — ICRC 2023
+        </li>
+
+        <li>
+          “The effect of dark non-standard interactions on the
+          CP-phase measurement at DUNE (Poster)” — ICRC 2023
+        </li>
+
+      </ul>
+
+    </section>
+
+
+    <!-- Download CV -->
+
+    <div class="cv-download">
+      <a href="CV_DBB.pdf" class="download-btn" download>
+        Download Full CV
+      </a>
     </div>
-  </section>
 
-  <!-- Publications -->
-  <section class="full-section">
-    <h2 class="section-title">Selected Publications</h2>
-    <ul>
-      <li><strong>D. Bezboruah, D. S. Chattopadhyay, A. Medhi, A. Sarker, M. M. Devi</strong>, 
-      “Neutrino Oscillations in Presence of Diagonal Elements of Scalar NSI: An Analytic Approach”, 
-      <em>JHEP 12 (2025) 222</em> [arXiv:2410.05250]</li>
+  </main>
 
-      <li><strong>A. Sarker, A. Medhi, D. Bezboruah, M. M. Devi, D. Dutta</strong>, 
-      “Impact of scalar NSI on the neutrino mass hierarchy sensitivity at DUNE, HK, and KNO”, 
-      <em>JHEP 06 (2024) 128</em> [arXiv:2309.12249]</li>
 
-      <li><strong>A. Sarker, D. Bezboruah, A. Medhi, M. M. Devi, D. Dutta</strong>, 
-      “The Sensitivity of DUNE in Presence of Off-Diagonal Scalar NSI Parameters”, 
-      <em>arXiv:2406.15307</em></li>
-    </ul>
-  </section>
+  <!-- Footer -->
 
-  <!-- Talks & Conferences -->
-  <section class="full-section">
-    <h2 class="section-title">Talks & Conferences</h2>
-    <ul>
-      <li>“Analytic Approximation of Neutrino Oscillations in Presence of Scalar NSI” — TU-GradSciCon-2025</li>
-      <li>“Effect of scalar NSI on neutrino oscillations: An Analytic Approach (Poster)” — XXVI DAE-BRNS High Energy Physics Symposium 2024. <em>[Best Poster, Honorable Mention]</em></li>
-      <li>“Dark Non-Standard Interaction and CP-phase measurement at DUNE (Poster)” — XXVI DAE-BRNS High Energy Physics Symposium 2024</li>
-      <li>“Impact of Scalar NSI on Neutrino Oscillations: An Analytic Approach” — PANE-2024</li>
-      <li>“Probing Non-Standard Interactions and CP-violation at DUNE via ν-oscillations (Poster)” — NEMA-X (2024)</li>
-      <li>“Machine learning model for separation of muons from punch-through hadrons in EAS at GRAPES-3 experiment (Poster)” — ICRC 2023</li>
-      <li>“The effect of dark non-standard interactions on the CP-phase measurement at DUNE (Poster)” — ICRC 2023</li>
-    </ul>
-  </section>
+  <footer>
 
-  <div style="text-align:center;">
-    <a href="CV_DBB.pdf" class="download-btn" download>Download Full CV</a>
-  </div>
+    <div class="social-icons">
 
-  <footer id="footer">
-    <div class="container-fluid">
-       <!-- social media icons -->
-       <div class="social-icons">
-          <a href="https://www.facebook.com/dharitree.bezboruah/" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="https://www.instagram.com/dharitreebezboruah/" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://x.com/Dbezsky911/" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.linkedin.com/in/dharitree-bezboruah-b24027205/" target="_blank"><i class="fab fa-linkedin"></i></a>
-       </div>
-   </div>
+      <a
+        href="https://www.facebook.com/dharitree.bezboruah/"
+        target="_blank"
+        aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+
+      <a
+        href="https://www.instagram.com/dharitreebezboruah/"
+        target="_blank"
+        aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+
+      <a
+        href="https://x.com/Dbezsky911/"
+        target="_blank"
+        aria-label="X">
+        <i class="fab fa-twitter"></i>
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/dharitree-bezboruah-b24027205/"
+        target="_blank"
+        aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+
+    </div>
+
   </footer>
-  
+
   <div class="copyright">
-   <p>From the <i class="fa-solid fa-heart"></i> of Etee</p>
+    <p>
+      From the <i class="fa-solid fa-heart"></i> of Etee
+    </p>
   </div>
 
 </body>
 </html>
+```

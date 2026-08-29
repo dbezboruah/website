@@ -355,3 +355,368 @@ a{
     border-color: white;
 }
 
+
+/* =========================================================
+   BLOG PAGE
+   ========================================================= */
+
+.blog_container {
+
+    max-width: 850px;
+
+    margin: 4rem auto;
+
+    padding: 0 1.5rem;
+
+}
+
+
+/* =========================================================
+   POST PREVIEW
+   ========================================================= */
+
+.post_preview {
+
+    padding: 2.5rem 0;
+
+    border-bottom:
+        1px solid
+        rgba(31, 76, 76, 0.25);
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.post_preview_date {
+
+    color: #1f4c4c;
+
+    font-size: 0.78rem;
+
+    letter-spacing: 0.04em;
+
+    margin-bottom: 0.6rem;
+
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.post_preview_title {
+
+    margin: 0 0 0.8rem;
+
+    color: #1f4c4c;
+
+    font-family: Georgia, serif;
+
+    font-size: 1.8rem;
+
+    font-weight: 500;
+
+    line-height: 1.3;
+
+}
+
+
+/* =========================================================
+   EXCERPT
+   ========================================================= */
+
+.post_preview_excerpt {
+
+    color: #333;
+
+    font-size: 0.98rem;
+
+    line-height: 1.8;
+
+    margin-bottom: 0.8rem;
+
+}
+
+
+/* =========================================================
+   READ LINK
+   ========================================================= */
+
+.read_link {
+
+    color: #1f4c4c;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+}
+
+
+.read_link:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =========================================================
+   ARTICLE
+   ========================================================= */
+
+.article_container {
+
+    max-width: 850px;
+
+    margin: 4rem auto;
+
+    padding: 0 1.5rem;
+
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.back_link {
+
+    display: inline-block;
+
+    color: #1f4c4c;
+
+    text-decoration: none;
+
+    font-size: 0.85rem;
+
+    margin-bottom: 2.5rem;
+
+}
+
+
+.back_link:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =========================================================
+   ARTICLE DATE
+   ========================================================= */
+
+.article_date {
+
+    color: #1f4c4c;
+
+    font-size: 0.8rem;
+
+    margin-bottom: 0.7rem;
+
+}
+
+
+/* =========================================================
+   ARTICLE TITLE
+   ========================================================= */
+
+.article_title {
+
+    color: #1f4c4c;
+
+    font-size: 2.5rem;
+
+    font-weight: 500;
+
+    line-height: 1.25;
+
+    margin: 0 0 2.5rem;
+
+}
+
+
+/* =========================================================
+   ARTICLE CONTENT
+   ========================================================= */
+
+.article_content {
+
+    color: #222;
+
+    font-size: 1rem;
+
+    line-height: 1.9;
+
+}
+
+
+/* Paragraphs */
+
+.article_content p {
+
+    margin:
+        0 0 1.4rem;
+
+}
+
+
+/* Headings */
+
+.article_content h1,
+.article_content h2,
+.article_content h3 {
+
+    color: #1f4c4c;
+
+    font-weight: 500;
+
+    margin-top: 2.5rem;
+
+}
+
+
+/* Images */
+
+.article_content img {
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    margin:
+        2rem auto;
+
+}
+
+
+/* Links */
+
+.article_content a {
+
+    color: #1f4c4c;
+
+}
+
+
+/* Blockquotes */
+
+.article_content blockquote {
+
+    border-left:
+        3px solid
+        #1f4c4c;
+
+    margin:
+        2rem 0;
+
+    padding-left: 1.2rem;
+
+    color: #555;
+
+}
+
+
+/* =========================================================
+   ARTICLE BOTTOM
+   ========================================================= */
+
+.article_bottom {
+
+    margin-top: 4rem;
+
+    padding-top: 2rem;
+
+    border-top:
+        1px solid
+        rgba(31, 76, 76, 0.25);
+
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading {
+
+    text-align: center;
+
+    color: #555;
+
+    padding: 4rem 0;
+
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-message {
+
+    text-align: center;
+
+    color: #555;
+
+    padding: 4rem 0;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .blog_container,
+    .article_container {
+
+        margin-top: 2.5rem;
+
+        padding:
+            0 1.2rem;
+
+    }
+
+
+    .post_preview {
+
+        padding:
+            2rem 0;
+
+    }
+
+
+    .post_preview_title {
+
+        font-size: 1.5rem;
+
+    }
+
+
+    .article_title {
+
+        font-size: 2rem;
+
+        margin-bottom:
+            1.8rem;
+
+    }
+
+
+    .article_content {
+
+        font-size: 0.98rem;
+
+        line-height: 1.8;
+
+    }
+
+}
+

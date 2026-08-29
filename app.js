@@ -1,62 +1,357 @@
-const blogPosts = [
-    {
-      title: "ঈশ্বৰ কণা আৰু প্ৰেত কণা",
-      image: "images/milky_way_neutrino.jpg",
-      description: "A small description of what the blog is about",
-      link: "neutrino.html",
-      tag: "Science",
-      author: "Dori Bezboruah",
-      year: "2024"
-    },
-    {
-      title: "অদ্ভুত কাহিনী",
-      image: "story.jpeg",
-      description: "A short story that will leave you wondering...",
-      link: "story1.html",
-      tag: "Fiction",
-      author: "Dori Bezboruah",
-      year: "2024"
-    },
-    {
-      title: "সংস্কৃতি আৰু সময়",
-      image: "story.jpeg",
-      description: "Exploring Assamese heritage through narrative.",
-      link: "culture.html",
-      tag: "Culture",
-      author: "Dori Bezboruah",
-      year: "2024"
+/* =========================================================
+   BEBERIBANG
+   BLOG FRONT-END
+   ========================================================= */
+
+
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+
+const POSTS_FILE = "posts.json";
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const blogList =
+    document.getElementById("blogList");
+
+const articleView =
+    document.getElementById("articleView");
+
+
+/* =========================================================
+   LOAD POSTS
+   ========================================================= */
+
+async function loadPosts() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${POSTS_FILE}?t=${Date.now()}`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load posts"
+            );
+
+        }
+
+
+        const posts =
+            await response.json();
+
+
+        displayPosts(posts);
+
+
+        /* Check whether an article was requested */
+
+        const hash =
+            window.location.hash;
+
+
+        if (hash.startsWith("#post-")) {
+
+            const id =
+                decodeURIComponent(
+                    hash.substring(6)
+                );
+
+
+            showArticle(
+                posts,
+                id
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        blogList.innerHTML = `
+
+            <p class="error-message">
+                Unable to load posts.
+            </p>
+
+        `;
+
     }
-  ];
-  
-  const cardSection = document.getElementById("cardSection");
-  
-  blogPosts.forEach(post => {
-    cardSection.innerHTML += `
-      <div class="card_container">
-          <a href="${post.link}" class="card_image_container">
-              <img src="${post.image}" alt="${post.title}" class="card_image" loading="lazy" />
-          </a>
-          <div class="card_title_container">
-              <a href="${post.link}" class="card_title_anchor">
-                  <h2 class="card_title">${post.title}</h2>
-              </a>
-              <p class="card_desc">${post.description}</p>
-          </div>
-          <div class="card_footer_container">
-              <div class="author_container">
-                  <div class="author_avatar_container">
-                      <img src="https://api.dicebear.com/7.x/notionists/svg?seed=John&size=64" loading="lazy" class="author_avatar" alt="avatar" />
-                  </div>
-                  <div class="author_info_container">
-                      <span class="author_name">${post.author}</span>
-                      <span class="author_date">${post.year}</span>
-                  </div>
-              </div>
-              <div class="card_tag_container">
-                  <span>${post.tag}</span>
-              </div>
-          </div>
-      </div>
+
+}
+
+
+/* =========================================================
+   DISPLAY BLOG LIST
+   ========================================================= */
+
+function displayPosts(posts) {
+
+    blogList.innerHTML = "";
+
+
+    posts.forEach(post => {
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "post_preview";
+
+
+        card.innerHTML = `
+
+            <div class="post_preview_date">
+
+                ${formatDate(post.date)}
+
+            </div>
+
+
+            <h2 class="post_preview_title">
+
+                ${escapeHTML(post.title)}
+
+            </h2>
+
+
+            <div class="post_preview_excerpt">
+
+                ${post.excerpt}
+
+            </div>
+
+
+            <a
+                href="#post-${encodeURIComponent(post.id)}"
+                class="read_link"
+                data-post-id="${escapeHTML(post.id)}">
+
+                Read →
+
+            </a>
+
+        `;
+
+
+        blogList.appendChild(card);
+
+    });
+
+
+    /* Attach click events */
+
+    document
+        .querySelectorAll(".read_link")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const id =
+                        this.dataset.postId;
+
+
+                    showArticle(
+                        posts,
+                        id
+                    );
+
+
+                    window.history.pushState(
+                        null,
+                        "",
+                        `#post-${encodeURIComponent(id)}`
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   SHOW ARTICLE
+   ========================================================= */
+
+function showArticle(posts, id) {
+
+    const post =
+        posts.find(
+            item => item.id === id
+        );
+
+
+    if (!post) {
+
+        return;
+
+    }
+
+
+    /* Hide blog list */
+
+    blogList.style.display =
+        "none";
+
+
+    /* Show article */
+
+    articleView.style.display =
+        "block";
+
+
+    articleView.innerHTML = `
+
+        <article class="article">
+
+
+            <a
+                href="blog.html"
+                class="back_link">
+
+                ← All posts
+
+            </a>
+
+
+            <div class="article_date">
+
+                ${formatDate(post.date)}
+
+            </div>
+
+
+            <h1 class="article_title">
+
+                ${escapeHTML(post.title)}
+
+            </h1>
+
+
+            <div class="article_content">
+
+                ${post.content}
+
+            </div>
+
+
+            <div class="article_bottom">
+
+                <a
+                    href="blog.html"
+                    class="back_link">
+
+                    ← Back to all posts
+
+                </a>
+
+            </div>
+
+
+        </article>
+
     `;
-  });
-  
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   BROWSER BACK BUTTON
+   ========================================================= */
+
+window.addEventListener(
+    "popstate",
+    function() {
+
+        loadPosts();
+
+    }
+);
+
+
+/* =========================================================
+   HASH CHANGE
+   ========================================================= */
+
+window.addEventListener(
+    "hashchange",
+    function() {
+
+        loadPosts();
+
+    }
+);
+
+
+/* =========================================================
+   FORMAT DATE
+   ========================================================= */
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(dateString);
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadPosts();
+
