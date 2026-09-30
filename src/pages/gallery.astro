@@ -3,6 +3,9 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/blog.css";
 import "../styles/gallery.css";
+import galleryImages from "../../public/gallery.json";
+
+const images = Array.isArray(galleryImages) ? galleryImages : [];
 ---
 
 <!doctype html>
@@ -22,7 +25,25 @@ import "../styles/gallery.css";
       <p>I love travel, food, cinema. Feel free to browse some of my snapshots.</p>
     </div>
 
-    <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
+    <div class="gallery-grid" id="galleryGrid" aria-live="polite">
+      {images.length > 0 ? images.map((image, index) => (
+        <button
+          type="button"
+          class="gallery-item"
+          aria-label="Open gallery photo"
+          data-index={index}
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}gallery/${encodeURIComponent(image.filename)}`}
+            alt="Gallery photo"
+            loading="lazy"
+            decoding="async"
+          />
+        </button>
+      )) : (
+        <p class="gallery-error">No photos available.</p>
+      )}
+    </div>
   </main>
 
   <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -35,35 +56,19 @@ import "../styles/gallery.css";
   <Footer />
 
   <script is:inline>
-    const dataURL = new URL("../gallery.json", document.baseURI);
-    const galleryRootURL = new URL("../gallery/", document.baseURI);
-
-    const galleryGrid = document.getElementById("galleryGrid");
+    const galleryImages = Array.from(document.querySelectorAll(".gallery-item img")).map((img) => img.src);
+    const galleryItems = Array.from(document.querySelectorAll(".gallery-item"));
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxClose = document.getElementById("lightboxClose");
     const lightboxPrev = document.getElementById("lightboxPrev");
     const lightboxNext = document.getElementById("lightboxNext");
-
-    let galleryImages = [];
     let currentIndex = 0;
-
-    function imageURL(filename) {
-      return new URL(encodeURIComponent(filename), galleryRootURL).href;
-    }
-
-    function rawImageURL(filename) {
-      return `https://raw.githubusercontent.com/dbezboruah/website/main/public/gallery/${encodeURIComponent(filename)}`;
-    }
 
     function openLightbox(index) {
       if (!galleryImages.length) return;
-
       currentIndex = (index + galleryImages.length) % galleryImages.length;
-      const image = galleryImages[currentIndex];
-
-      lightboxImage.src = imageURL(image.filename);
-      lightboxImage.dataset.fallback = rawImageURL(image.filename);
+      lightboxImage.src = galleryImages[currentIndex];
       lightboxImage.alt = "Gallery photo";
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
@@ -85,81 +90,24 @@ import "../styles/gallery.css";
       openLightbox(currentIndex + 1);
     }
 
-    function createGalleryCard(image, index) {
-      const item = document.createElement("button");
-      item.type = "button";
-      item.className = "gallery-item";
-      item.setAttribute("aria-label", "Open gallery photo");
-
-      const img = document.createElement("img");
-      img.src = imageURL(image.filename);
-      img.alt = "Gallery photo";
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.dataset.fallback = rawImageURL(image.filename);
-
-      img.addEventListener("error", function () {
-        if (this.src !== this.dataset.fallback) {
-          this.src = this.dataset.fallback;
-        }
-      });
-
-      item.appendChild(img);
+    galleryItems.forEach((item, index) => {
       item.addEventListener("click", () => openLightbox(index));
-      return item;
-    }
-
-    async function loadGallery() {
-      try {
-        const response = await fetch(`${dataURL.href}?t=${Date.now()}`, {
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error(`Could not load gallery.json (${response.status})`);
-        }
-
-        const data = await response.json();
-        galleryImages = Array.isArray(data) ? data : [];
-        galleryGrid.innerHTML = "";
-
-        if (!galleryImages.length) {
-          galleryGrid.innerHTML = '<p class="gallery-error">No photos available.</p>';
-          return;
-        }
-
-        galleryImages.forEach((image, index) => {
-          galleryGrid.appendChild(createGalleryCard(image, index));
-        });
-      } catch (error) {
-        console.error("Gallery loading error:", error);
-        galleryGrid.innerHTML = '<p class="gallery-error">Unable to load gallery.</p>';
-      }
-    }
-
-    lightboxImage.addEventListener("error", function () {
-      if (this.src !== this.dataset.fallback) {
-        this.src = this.dataset.fallback;
-      }
     });
 
     lightboxClose.addEventListener("click", closeLightbox);
     lightboxPrev.addEventListener("click", showPrevious);
     lightboxNext.addEventListener("click", showNext);
 
-    lightbox.addEventListener("click", function (event) {
+    lightbox.addEventListener("click", (event) => {
       if (event.target === lightbox) closeLightbox();
     });
 
-    document.addEventListener("keydown", function (event) {
+    document.addEventListener("keydown", (event) => {
       if (!lightbox.classList.contains("is-open")) return;
-
       if (event.key === "Escape") closeLightbox();
       if (event.key === "ArrowLeft") showPrevious();
       if (event.key === "ArrowRight") showNext();
     });
-
-    loadGallery();
   </script>
 </body>
 </html>
