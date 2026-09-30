@@ -34,7 +34,7 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
           data-index={index}
         >
           <img
-            src={`${import.meta.env.BASE_URL}gallery/${encodeURIComponent(image.filename)}`}
+            src={`${import.meta.env.BASE_URL}${image.src}`}
             alt="Gallery photo"
             loading="lazy"
             decoding="async"
