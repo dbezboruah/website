@@ -37,8 +37,6 @@ jobs:
           posts = []
 
           def prepare_blogger_html(content):
-              # Keep Blogger's complete article HTML, including images.
-              # Remove executable content before publishing it.
               content = re.sub(
                   r"<script.*?</script>",
                   "",
@@ -46,8 +44,6 @@ jobs:
                   flags=re.DOTALL | re.IGNORECASE,
               )
 
-              # Blogger image URLs often contain /s320/, /s640/, /s706/,
-              # etc. Request a larger version while keeping the same image.
               content = re.sub(
                   r"(https?://blogger\.googleusercontent\.com/[^\"'\s>]+?)/s\d+(?:-c)?/",
                   r"\1/s1600/",
@@ -55,7 +51,6 @@ jobs:
                   flags=re.IGNORECASE,
               )
 
-              # Handle Blogger URLs that appear HTML-escaped as https:\/\/...
               content = re.sub(
                   r"(https?:\\/\\/blogger\.googleusercontent\.com/[^\"'\s>]+?)/s\d+(?:-c)?/",
                   r"\1/s1600/",
@@ -63,8 +58,6 @@ jobs:
                   flags=re.IGNORECASE,
               )
 
-              # Promote data-src to src if a Blogger image uses lazy-loading
-              # markup that would otherwise leave the image unloaded.
               def promote_data_src(match):
                   tag = match.group(0)
                   if re.search(r"\bsrc\s*=", tag, re.IGNORECASE):
@@ -92,7 +85,6 @@ jobs:
                   flags=re.IGNORECASE,
               )
 
-              # Keep images responsive and let the browser load them normally.
               def prepare_img(match):
                   tag = match.group(0)
                   if not re.search(r"\bloading\s*=", tag, re.IGNORECASE):
@@ -116,8 +108,6 @@ jobs:
               content = entry.get("content", entry.get("summary", {})).get("$t", "")
               clean_content = prepare_blogger_html(content)
 
-              # Generate excerpt from text, but keep the complete HTML in
-              # content so Blogger images and formatting are preserved.
               text = re.sub(r"<[^>]+>", " ", clean_content)
               text = html.unescape(text)
               text = re.sub(r"\s+", " ", text).strip()
@@ -142,14 +132,42 @@ jobs:
           )
           PY
 
-      - name: Commit updated posts
+      - name: Generate gallery.json from gallery folder
+        run: |
+          python3 <<'PY'
+          import json
+          from pathlib import Path
+
+          gallery_dir = Path("public/gallery")
+          output = Path("public/gallery.json")
+
+          image_extensions = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"}
+
+          images = []
+          if gallery_dir.exists():
+              for path in sorted(gallery_dir.iterdir(), key=lambda p: p.name.lower()):
+                  if path.is_file() and path.suffix.lower() in image_extensions:
+                      images.append({
+                          "filename": path.name,
+                          "src": f"gallery/{path.name}"
+                      })
+
+          output.write_text(
+              json.dumps(images, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+
+          print(f"Generated gallery.json with {len(images)} images.")
+          PY
+
+      - name: Commit updated blog and gallery data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/posts.json
+          git add public/posts.json public/gallery.json
           if git diff --cached --quiet; then
-            echo "No new Blogger posts or changes."
+            echo "No blog or gallery changes."
           else
-            git commit -m "Update blog posts from Blogger"
+            git commit -m "Update blog posts and gallery"
             git push
           fi
