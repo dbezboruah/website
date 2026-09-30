@@ -26,15 +26,24 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <div class="gallery-grid">
-      {gallery.map((image) => (
-        <div class="gallery-item">
-          <img
-            src={`${base}gallery/${encodeURIComponent(image.filename)}`}
-            alt={image.filename}
-            loading="lazy"
-          />
-        </div>
-      ))}
+      {gallery.map((image) => {
+        const filename = image.filename;
+        const encodedFilename = encodeURIComponent(filename);
+        const localSrc = `${base}gallery/${encodedFilename}`;
+        const rawSrc = `https://raw.githubusercontent.com/dbezboruah/website/astro-migration/public/gallery/${encodedFilename}`;
+
+        return (
+          <div class="gallery-item">
+            <img
+              src={localSrc}
+              alt={filename}
+              loading="lazy"
+              data-fallback={rawSrc}
+              onerror="if (this.src !== this.dataset.fallback) { this.src = this.dataset.fallback; }"
+            />
+          </div>
+        );
+      })}
     </div>
   </main>
 
