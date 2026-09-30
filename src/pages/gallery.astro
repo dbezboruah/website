@@ -28,26 +28,19 @@ import "../styles/gallery.css";
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">&times;</button>
     <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous photo">&#10094;</button>
-    <img class="lightbox-image" id="lightboxImage" src="" alt="" />
+    <img class="lightbox-image" id="lightboxImage" src="" alt="Gallery photo" />
     <button class="lightbox-next" id="lightboxNext" aria-label="Next photo">&#10095;</button>
-    <div class="lightbox-caption" id="lightboxCaption"></div>
   </div>
 
   <Footer />
 
   <script is:inline>
-    /*
-     * The gallery page is /website/gallery/ while gallery.json is at
-     * /website/gallery.json. Using a relative URL here avoids the previous
-     * __BASE_URL__ placeholder problem in an is:inline script.
-     */
     const dataURL = new URL("../gallery.json", document.baseURI);
     const galleryRootURL = new URL("../gallery/", document.baseURI);
 
     const galleryGrid = document.getElementById("galleryGrid");
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
-    const lightboxCaption = document.getElementById("lightboxCaption");
     const lightboxClose = document.getElementById("lightboxClose");
     const lightboxPrev = document.getElementById("lightboxPrev");
     const lightboxNext = document.getElementById("lightboxNext");
@@ -68,12 +61,10 @@ import "../styles/gallery.css";
 
       currentIndex = (index + galleryImages.length) % galleryImages.length;
       const image = galleryImages[currentIndex];
-      const src = imageURL(image.filename);
 
-      lightboxImage.src = src;
+      lightboxImage.src = imageURL(image.filename);
       lightboxImage.dataset.fallback = rawImageURL(image.filename);
-      lightboxImage.alt = image.filename;
-      lightboxCaption.textContent = image.filename;
+      lightboxImage.alt = "Gallery photo";
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.classList.add("lightbox-open");
@@ -98,11 +89,11 @@ import "../styles/gallery.css";
       const item = document.createElement("button");
       item.type = "button";
       item.className = "gallery-item";
-      item.setAttribute("aria-label", `Open ${image.filename}`);
+      item.setAttribute("aria-label", "Open gallery photo");
 
       const img = document.createElement("img");
       img.src = imageURL(image.filename);
-      img.alt = image.filename;
+      img.alt = "Gallery photo";
       img.loading = "lazy";
       img.decoding = "async";
       img.dataset.fallback = rawImageURL(image.filename);
