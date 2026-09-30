@@ -36,24 +36,85 @@ jobs:
           entries = data.get("feed", {}).get("entry", [])
           posts = []
 
-          for entry in entries:
-              title = entry.get("title", {}).get("$t", "Untitled")
-              post_id = entry.get("id", {}).get("$t", "").split(".post-")[-1]
-              published = entry.get("published", {}).get("$t", "")
+          def prepare_blogger_html(content):
+              """Keep Blogger's article HTML, including images, but make
+              Blogger-hosted images more robust for the Astro site."""
 
-              content = entry.get("content", entry.get("summary", {})).get("$t", "")
-
-              # Remove executable content before putting Blogger HTML on the site.
-              clean_content = re.sub(
+              # Remove executable content before publishing Blogger HTML.
+              content = re.sub(
                   r"<script.*?</script>",
                   "",
                   content,
                   flags=re.DOTALL | re.IGNORECASE,
               )
 
+              # Blogger commonly serves resized images as /s320/, /s640/,
+              # /s706/, etc. Use /s1600/ so the Astro site gets a larger
+              # version while retaining the original Blogger-hosted image.
+              content = re.sub(
+                  r"(https?:\\/\\/blogger\\.googleusercontent\\.com/[^\\\"'\\s>]+?)/s\\d+(?:-c)?/",
+                  r"\\1/s1600/",
+                  content,
+                  flags=re.IGNORECASE,
+              )
+
+              # Also handle normal, unescaped URLs in the HTML.
+              content = re.sub(
+                  r"(https?://blogger\\.googleusercontent\\.com/[^\\\"'\\s>]+?)/s\\d+(?:-c)?/",
+                  r"\\1/s1600/",
+                  content,
+                  flags=re.IGNORECASE,
+              )
+
+              # Some Blogger templates use data-src instead of src. Promote
+              # it to src so the browser loads the image normally.
+              def promote_data_src(match):
+                  tag = match.group(0)
+                  if re.search(r"\\bsrc\\s*=", tag, re.IGNORECASE):
+                      return tag
+                  data_src = re.search(
+                      r"\\bdata-src\\s*=\\s*([\\\"'])(.*?)\\1",
+                      tag,
+                      re.IGNORECASE | re.DOTALL,
+                  )
+                  if not data_src:
+                      return tag
+                  url = data_src.group(2)
+                  return re.sub(
+                      r"(<img\\b)",
+                      r'\\1 src="' + url.replace('"', '&quot;') + '"',
+                      tag,
+                      count=1,
+                      flags=re.IGNORECASE,
+                  )
+
+              content = re.sub(r"<img\\b[^>]*>", promote_data_src, content, flags=re.IGNORECASE)
+
+              # Add browser-friendly attributes to Blogger images without
+              # changing their URLs or removing any existing attributes.
+              def prepare_img(match):
+                  tag = match.group(0)
+                  if not re.search(r"\\bloading\\s*=", tag, re.IGNORECASE):
+                      tag = tag[:-1] + ' loading="lazy">'
+                  if not re.search(r"\\bdecoding\\s*=", tag, re.IGNORECASE):
+                      tag = tag[:-1] + ' decoding="async">'
+                  return tag
+
+              return re.sub(r"<img\\b[^>]*>", prepare_img, content, flags=re.IGNORECASE)
+
+          for entry in entries:
+              title = entry.get("title", {}).get("$t", "Untitled")
+              post_id = entry.get("id", {}).get("$t", "").split(".post-")[-1]
+              published = entry.get("published", {}).get("$t", "")
+
+              content = entry.get("content", entry.get("summary", {})).get("$t", "")
+              clean_content = prepare_blogger_html(content)
+
+              # Build the excerpt from text while keeping the full HTML in
+              # post["content"] so images and formatting survive the sync.
               text = re.sub(r"<[^>]+>", " ", clean_content)
               text = html.unescape(text)
-              text = re.sub(r"\s+", " ", text).strip()
+              text = re.sub(r"\\s+", " ", text).strip()
 
               excerpt = text[:280]
               if len(text) > 280:
