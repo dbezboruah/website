@@ -1,12 +1,11 @@
-name: Update Gallery
+name: Update Gallery Data
 
 on:
+  workflow_dispatch:
   push:
     paths:
-      - 'gallery/**'
-      - '.github/workflows/update-gallery.yml'
-
-  workflow_dispatch:
+      - "public/gallery/**"
+      - ".github/workflows/update-gallery.yml"
 
 permissions:
   contents: write
@@ -16,79 +15,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Generate gallery.json
         run: |
-
-          python3 << 'PY'
-
+          python3 <<'PY'
           import json
-          import os
+          from pathlib import Path
 
-          gallery_dir = "gallery"
-
-          allowed_extensions = {
-              ".jpg",
-              ".jpeg",
-              ".png",
-              ".webp"
-          }
+          gallery_dir = Path("public/gallery")
+          output = Path("public/gallery.json")
+          image_extensions = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"}
 
           images = []
+          if gallery_dir.exists():
+              for path in sorted(gallery_dir.iterdir(), key=lambda p: p.name.lower()):
+                  if path.is_file() and path.suffix.lower() in image_extensions:
+                      images.append({
+                          "filename": path.name,
+                          "src": f"gallery/{path.name}"
+                      })
 
-          for filename in sorted(os.listdir(gallery_dir)):
-
-              filepath = os.path.join(
-                  gallery_dir,
-                  filename
-              )
-
-              if not os.path.isfile(filepath):
-                  continue
-
-              extension = os.path.splitext(
-                  filename
-              )[1].lower()
-
-              if extension not in allowed_extensions:
-                  continue
-
-              images.append({
-                  "filename": filename,
-                  "src": "gallery/" + filename
-              })
-
-
-          with open(
-              "gallery.json",
-              "w",
+          output.write_text(
+              json.dumps(images, ensure_ascii=False, indent=2),
               encoding="utf-8"
-          ) as f:
-
-              json.dump(
-                  images,
-                  f,
-                  ensure_ascii=False,
-                  indent=2
-              )
-
+          )
+          print(f"Generated gallery.json with {len(images)} images.")
           PY
 
-
-      - name: Commit gallery.json
+      - name: Commit updated gallery data
         run: |
-
           git config user.name "github-actions[bot]"
-
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add gallery.json
-
-          git diff --cached --quiet || \
-            git commit -m "Update gallery"
-
-          git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/gallery.json
+          if git diff --cached --quiet; then
+            echo "No gallery changes."
+          else
+            git commit -m "Update gallery data"
+            git push
+          fi
