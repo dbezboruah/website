@@ -18,10 +18,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 </header>
 
 <style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
+
   /* Keep the navigation visible while scrolling on every page. */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    font-family: "DM Sans", sans-serif;
+  }
+
+  /* Match the landing-page header typography. */
+  .site-header h1,
+  .site-header h1 a,
+  .site-header nav,
+  .site-header nav a {
+    font-family: "DM Sans", sans-serif;
   }
 </style>
