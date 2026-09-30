@@ -2,14 +2,9 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/gallery.css";
+import gallery from "../../gallery.json";
 
 const base = import.meta.env.BASE_URL;
-
-const response = await fetch(
-    new URL(`${base}gallery.json`, Astro.site)
-);
-
-const gallery = await response.json();
 ---
 
 <!DOCTYPE html>
@@ -17,12 +12,10 @@ const gallery = await response.json();
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
-
     <title>Though my lens — Dharitree Bezboruah</title>
 
     <script
@@ -38,33 +31,23 @@ const gallery = await response.json();
     <main class="gallery-page">
 
         <div class="gallery-intro">
-
             <h1>Though my lens</h1>
-
             <p>
                 I love travel, food, cinema.
                 Feel free to browse some of my snapshots.
             </p>
-
         </div>
 
-
         <div class="gallery-grid">
-
             {gallery.map((image) => (
-
                 <div class="gallery-item">
-
                     <img
                         src={`${base}${image.src}`}
                         alt={image.filename}
                         loading="lazy"
                     />
-
                 </div>
-
             ))}
-
         </div>
 
     </main>
