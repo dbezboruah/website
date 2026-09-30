@@ -27,17 +27,13 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
 
     <div class="gallery-grid" id="galleryGrid" aria-live="polite">
       {images.length > 0 ? images.map((image, index) => (
-        <button
-          type="button"
-          class="gallery-item"
-          aria-label="Open gallery photo"
-          data-index={index}
-        >
+        <button type="button" class="gallery-item" aria-label="Open gallery photo" data-index={index}>
           <img
             src={`${import.meta.env.BASE_URL}${image.src}`}
             alt="Gallery photo"
             loading="lazy"
             decoding="async"
+            data-fallback={`https://raw.githubusercontent.com/dbezboruah/website/main/public/${image.src}`}
           />
         </button>
       )) : (
@@ -56,14 +52,22 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
   <Footer />
 
   <script is:inline>
-    const galleryImages = Array.from(document.querySelectorAll(".gallery-item img")).map((img) => img.src);
     const galleryItems = Array.from(document.querySelectorAll(".gallery-item"));
+    const galleryImages = galleryItems.map((item) => item.querySelector("img").src);
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxClose = document.getElementById("lightboxClose");
     const lightboxPrev = document.getElementById("lightboxPrev");
     const lightboxNext = document.getElementById("lightboxNext");
     let currentIndex = 0;
+
+    document.querySelectorAll(".gallery-item img").forEach((img) => {
+      img.addEventListener("error", function () {
+        if (this.dataset.fallback && this.src !== this.dataset.fallback) {
+          this.src = this.dataset.fallback;
+        }
+      });
+    });
 
     function openLightbox(index) {
       if (!galleryImages.length) return;
@@ -82,13 +86,8 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
       lightboxImage.removeAttribute("src");
     }
 
-    function showPrevious() {
-      openLightbox(currentIndex - 1);
-    }
-
-    function showNext() {
-      openLightbox(currentIndex + 1);
-    }
+    function showPrevious() { openLightbox(currentIndex - 1); }
+    function showNext() { openLightbox(currentIndex + 1); }
 
     galleryItems.forEach((item, index) => {
       item.addEventListener("click", () => openLightbox(index));
