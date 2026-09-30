@@ -3,6 +3,9 @@ const { showHomeIcon = true } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
+<!-- Kalpurush is used automatically for Assamese/Bengali-script text anywhere on the site. -->
+<link rel="stylesheet" href="https://banglawebfonts.pages.dev/css/kalpurush.css">
+
 <header class="site-header">
   <a href={`${base}/`} class="site-name">Dharitree Bezboruah</a>
   <nav>
@@ -107,6 +110,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     opacity: 0.65;
   }
 
+  /*
+   * Any Assamese/Bengali-script text is wrapped by the shared script below.
+   * English and other Latin text continues to use each page's normal font.
+   */
+  .assamese-text {
+    font-family: "Kalpurush", sans-serif !important;
+  }
+
   @media (max-width: 700px) {
     .site-header {
       padding: 25px;
@@ -131,3 +142,87 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     }
   }
 </style>
+
+<script is:inline>
+  (() => {
+    const ASSAMESE = /[\u0980-\u09FF]/;
+    const SCRIPT_RUN = /[\u0980-\u09FF]+(?:[\u200C\u200D][\u0980-\u09FF]+)*/g;
+
+    function wrapAssamese(root) {
+      if (!root) return;
+
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            if (!node.nodeValue || !ASSAMESE.test(node.nodeValue)) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            const parent = node.parentElement;
+            if (!parent || parent.closest(".assamese-text, script, style, textarea")) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+
+      const nodes = [];
+      let node;
+      while ((node = walker.nextNode())) nodes.push(node);
+
+      nodes.forEach(textNode => {
+        const text = textNode.nodeValue;
+        const fragment = document.createDocumentFragment();
+        let last = 0;
+        let match;
+
+        SCRIPT_RUN.lastIndex = 0;
+        while ((match = SCRIPT_RUN.exec(text)) !== null) {
+          if (match.index > last) {
+            fragment.appendChild(document.createTextNode(text.slice(last, match.index)));
+          }
+
+          const span = document.createElement("span");
+          span.className = "assamese-text";
+          span.textContent = match[0];
+          fragment.appendChild(span);
+          last = SCRIPT_RUN.lastIndex;
+        }
+
+        if (last < text.length) {
+          fragment.appendChild(document.createTextNode(text.slice(last)));
+        }
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+      });
+    }
+
+    function initAssameseFont() {
+      wrapAssamese(document.body);
+
+      const observer = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              wrapAssamese(node);
+            } else if (node.nodeType === Node.TEXT_NODE) {
+              wrapAssamese(node.parentElement);
+            }
+          });
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAssameseFont, { once: true });
+    } else {
+      initAssameseFont();
+    }
+  })();
+</script>
