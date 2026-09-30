@@ -2,58 +2,41 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/gallery.css";
-import gallery from "../../gallery.json";
+import gallery from "../data/gallery.json";
 
 const base = import.meta.env.BASE_URL;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <title>Though my lens — Dharitree Bezboruah</title>
-
-    <script
-        src="https://kit.fontawesome.com/2d462008c1.js"
-        crossorigin="anonymous">
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Though my lens — Dharitree Bezboruah</title>
+  <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
+  <Header />
 
-    <Header />
+  <main class="gallery-page">
+    <div class="gallery-intro">
+      <h1>Though my lens</h1>
+      <p>I love travel, food, cinema. Feel free to browse some of my snapshots.</p>
+    </div>
 
-    <main class="gallery-page">
-
-        <div class="gallery-intro">
-            <h1>Though my lens</h1>
-            <p>
-                I love travel, food, cinema.
-                Feel free to browse some of my snapshots.
-            </p>
+    <div class="gallery-grid">
+      {gallery.map((image) => (
+        <div class="gallery-item">
+          <img
+            src={`${base}${image.src}`}
+            alt={image.filename}
+            loading="lazy"
+          />
         </div>
+      ))}
+    </div>
+  </main>
 
-        <div class="gallery-grid">
-            {gallery.map((image) => (
-                <div class="gallery-item">
-                    <img
-                        src={`${base}${image.src}`}
-                        alt={image.filename}
-                        loading="lazy"
-                    />
-                </div>
-            ))}
-        </div>
-
-    </main>
-
-    <Footer />
-
+  <Footer />
 </body>
-
 </html>
