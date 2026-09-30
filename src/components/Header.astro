@@ -3,8 +3,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <header class="site-header">
-
-  <h1>
+  <h1 class="site-name">
     <a href={`${base}/`}>Dharitree Bezboruah</a>
   </h1>
 
@@ -14,25 +13,85 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     <a href={`${base}/blog/`}>Blog</a>
     <a href={`${base}/gallery/`}>Gallery</a>
   </nav>
-
 </header>
 
 <style is:global>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
 
-  /* Keep the navigation visible while scrolling on every page. */
+  /* Same typography and spacing as the landing-page header. */
   .site-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "DM Sans", sans-serif !important;
     position: sticky;
     top: 0;
     z-index: 1000;
-    font-family: "DM Sans", sans-serif;
   }
 
-  /* Match the landing-page header typography. */
-  .site-header h1,
-  .site-header h1 a,
-  .site-header nav,
+  .site-header .site-name,
+  .site-header .site-name a {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", sans-serif !important;
+  }
+
   .site-header nav a {
-    font-family: "DM Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: normal;
+    position: relative;
+  }
+
+  .site-header nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 1px;
+    background: #ff004f;
+    transition: width 0.3s ease;
+  }
+
+  .site-header nav a:hover::after {
+    width: 100%;
+  }
+
+  @media (max-width: 700px) {
+    .site-header nav {
+      gap: 15px;
+    }
+
+    .site-header nav a {
+      font-size: 12px;
+    }
+
+    .site-header .site-name,
+    .site-header .site-name a {
+      font-size: 14px;
+    }
   }
 </style>
