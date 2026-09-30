@@ -12,6 +12,35 @@ import "../styles/home.css";
 <link rel="stylesheet" href="https://banglawebfonts.pages.dev/css/kalpurush.css" />
 <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
 </head>
+
+<style is:global>
+/* Keep the landing-page header visible while scrolling */
+.site-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 32px 5vw;
+  background: #093a41;
+}
+
+/* Prevent the fixed header from covering the top of the hero */
+.hero {
+  padding-top: 110px;
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    padding: 25px;
+  }
+
+  .hero {
+    padding-top: 90px;
+  }
+}
+</style>
+
 <body>
 <section class="hero">
 <header class="site-header">
