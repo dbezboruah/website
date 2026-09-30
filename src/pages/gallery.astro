@@ -25,11 +25,12 @@ import "../styles/gallery.css";
     <div class="gallery-grid" id="galleryGrid" aria-live="polite"></div>
   </main>
 
+  <!-- Same simple lightbox behavior as the old gallery:
+       tap/click a photograph, show it full-size, close with ×,
+       Escape, or by touching/clicking the dark background. -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">&times;</button>
-    <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous photo">&#10094;</button>
-    <img class="lightbox-image" id="lightboxImage" src="" alt="Gallery photo" />
-    <button class="lightbox-next" id="lightboxNext" aria-label="Next photo">&#10095;</button>
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close photograph">&times;</button>
+    <img class="lightbox-image" id="lightboxImage" src="" alt="" />
   </div>
 
   <Footer />
@@ -42,11 +43,8 @@ import "../styles/gallery.css";
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxClose = document.getElementById("lightboxClose");
-    const lightboxPrev = document.getElementById("lightboxPrev");
-    const lightboxNext = document.getElementById("lightboxNext");
 
     let galleryImages = [];
-    let currentIndex = 0;
 
     function imageURL(filename) {
       return new URL(encodeURIComponent(filename), galleryRootURL).href;
@@ -56,40 +54,31 @@ import "../styles/gallery.css";
       return `https://raw.githubusercontent.com/dbezboruah/website/main/public/gallery/${encodeURIComponent(filename)}`;
     }
 
-    function openLightbox(index) {
-      if (!galleryImages.length) return;
-
-      currentIndex = (index + galleryImages.length) % galleryImages.length;
-      const image = galleryImages[currentIndex];
-
+    function openLightbox(image) {
       lightboxImage.src = imageURL(image.filename);
       lightboxImage.dataset.fallback = rawImageURL(image.filename);
       lightboxImage.alt = "Gallery photo";
-      lightbox.classList.add("is-open");
+
+      lightbox.classList.add("lightbox-visible");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.classList.add("lightbox-open");
     }
 
     function closeLightbox() {
-      lightbox.classList.remove("is-open");
+      lightbox.classList.remove("lightbox-visible");
       lightbox.setAttribute("aria-hidden", "true");
       document.body.classList.remove("lightbox-open");
       lightboxImage.removeAttribute("src");
     }
 
-    function showPrevious() {
-      openLightbox(currentIndex - 1);
-    }
-
-    function showNext() {
-      openLightbox(currentIndex + 1);
-    }
-
-    function createGalleryCard(image, index) {
-      const item = document.createElement("button");
-      item.type = "button";
+    function createGalleryCard(image) {
+      const item = document.createElement("div");
       item.className = "gallery-item";
-      item.setAttribute("aria-label", "Open gallery photo");
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-photo-button";
+      button.setAttribute("aria-label", "Open photograph");
 
       const img = document.createElement("img");
       img.src = imageURL(image.filename);
@@ -104,8 +93,10 @@ import "../styles/gallery.css";
         }
       });
 
-      item.appendChild(img);
-      item.addEventListener("click", () => openLightbox(index));
+      button.appendChild(img);
+      button.addEventListener("click", () => openLightbox(image));
+      item.appendChild(button);
+
       return item;
     }
 
@@ -124,15 +115,15 @@ import "../styles/gallery.css";
         galleryGrid.innerHTML = "";
 
         if (!galleryImages.length) {
-          galleryGrid.innerHTML = '<p class="gallery-error">No photos available.</p>';
+          galleryGrid.innerHTML = '<p class="gallery-error">No photographs yet.</p>';
           return;
         }
 
-        galleryImages.forEach((image, index) => {
-          galleryGrid.appendChild(createGalleryCard(image, index));
+        galleryImages.forEach((image) => {
+          galleryGrid.appendChild(createGalleryCard(image));
         });
       } catch (error) {
-        console.error("Gallery loading error:", error);
+        console.error("Gallery error:", error);
         galleryGrid.innerHTML = '<p class="gallery-error">Unable to load gallery.</p>';
       }
     }
@@ -144,19 +135,18 @@ import "../styles/gallery.css";
     });
 
     lightboxClose.addEventListener("click", closeLightbox);
-    lightboxPrev.addEventListener("click", showPrevious);
-    lightboxNext.addEventListener("click", showNext);
 
+    /* Touch/click anywhere on the dark overlay, but not on the photograph. */
     lightbox.addEventListener("click", function (event) {
-      if (event.target === lightbox) closeLightbox();
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
     });
 
     document.addEventListener("keydown", function (event) {
-      if (!lightbox.classList.contains("is-open")) return;
-
-      if (event.key === "Escape") closeLightbox();
-      if (event.key === "ArrowLeft") showPrevious();
-      if (event.key === "ArrowRight") showNext();
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
     });
 
     loadGallery();
