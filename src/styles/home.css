@@ -1,0 +1,1538 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+
+:root {
+  --cream: #dfdccb;
+  --purple: #581845;
+  --pink: #ff004f;
+  --soft-purple: #7b536d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #dfdccb;
+  color: var(--purple);
+  font-family: "DM Sans", sans-serif;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 5vw 45px;
+  background: #093a41;
+}
+
+
+/* ================= HEADER ================= */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-name {
+  color: #dfdccb;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 30px;
+}
+
+.site-header nav a {
+  color: #dfdccb;
+  text-decoration: none;
+  font-size: 14px;
+  position: relative;
+}
+
+.site-header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 1px;
+  background: var(--pink);
+  transition: width 0.3s ease;
+}
+
+.site-header nav a:hover::after {
+  width: 100%;
+}
+
+
+/* ================= HERO TEXT ================= */
+
+.hero-content {
+  margin: auto;
+  text-align: center;
+  transform: translateY(-3vh);
+}
+
+.hero-kicker {
+  color: #dfdccb;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  font-weight: 400;
+}
+
+.hero-content h1 {
+  margin-top: 18px;
+  color: #dfdccb;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.1rem, 2vw, 1.7rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+
+/* ================= SCROLL ================= */
+
+.scroll-cue {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: #dfdccb;
+  text-decoration: none;
+}
+
+.scroll-cue span {
+  width: 1px;
+  height: 42px;
+  background: #dfdccb;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+.scroll-cue small {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+@keyframes scrollLine {
+  0%, 100% {
+    transform: scaleY(0.5);
+    transform-origin: top;
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+
+
+/* ================= ABOUT ================= */
+
+.about-section {
+  min-height: 100vh;
+  padding: 12vh 8vw;
+  background: #dfdccb;
+  color: #581845;
+  display: flex;
+  align-items: center;
+}
+
+.about-inner {
+  width: min(1100px, 100%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 9vw;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 430px;
+  display: block;
+}
+
+.about-text {
+  max-width: 560px;
+}
+
+.eyebrow {
+  color: var(--soft-purple);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 24px;
+}
+
+.about-text h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 1.05;
+  margin-bottom: 30px;
+}
+
+.about-text h2 span {
+  font-size: 0.55em;
+  font-style: italic;
+}
+
+.about-text p {
+  color: var(--purple);
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.about-text .assamese {
+  font-size: 16px;
+}
+
+.links {
+  display: flex;
+  gap: 28px;
+  margin-top: 38px;
+}
+
+.links a {
+  color: var(--purple);
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid var(--pink);
+  padding-bottom: 5px;
+}
+
+.links a span {
+  color: var(--pink);
+  margin-left: 5px;
+}
+
+
+/* ================= ORIGINAL FOOTER ================= */
+
+footer {
+  background: var(--cream);
+  color: var(--purple);
+  text-align: center;
+  padding: 20px 0 10px;
+}
+
+footer .container-fluid {
+  width: 100%;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
+
+.socials a {
+  color: var(--purple);
+  font-size: 20px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.socials a:hover {
+  color: var(--pink);
+}
+
+footer p {
+  margin-top: 15px;
+  font-size: 13px;
+  color: var(--purple);
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 700px) {
+
+  .hero {
+    padding: 25px 25px 40px;
+  }
+
+  .site-header nav {
+    gap: 15px;
+  }
+
+  .site-header nav a {
+    font-size: 12px;
+  }
+
+  .site-name {
+    font-size: 14px;
+  }
+
+  .hero-kicker {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .about-section {
+    padding: 80px 25px;
+  }
+
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .about-image img {
+    max-width: 100%;
+  }
+
+  footer {
+    padding: 20px 25px 10px;
+  }
+}
+
+
+/* =========================================================
+   ORIGINAL-STYLE ABOUT SECTION
+   ========================================================= */
+
+.about-section {
+  min-height: auto;
+  padding: 20px 0;
+  background: #e6dbc9;
+  color: #081c10;
+  display: block;
+}
+
+.about-inner {
+  width: auto;
+  margin: 0;
+  padding: 1px 5%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.about-image {
+  flex-basis: 35%;
+}
+
+.about-image img {
+  width: 90%;
+  max-width: 350px;
+  height: auto;
+  display: block;
+  border-radius: 5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about-text {
+  flex-basis: 60%;
+  max-width: none;
+  padding: 0;
+}
+
+.about-text h2 {
+  color: #144141;
+  margin-bottom: 1rem;
+  font-family: inherit;
+  font-size: 1.5em;
+  line-height: normal;
+  font-weight: bold;
+}
+
+.about-text p {
+  color: #090808;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: normal;
+  margin-bottom: 1em;
+}
+
+.about-text .assamese {
+  font-size: 16px;
+}
+
+.about-text a {
+  color: black;
+  text-decoration: none;
+  position: relative;
+}
+
+.about-text a::after {
+  content: '';
+  width: 0;
+  height: 3px;
+  background: #ff004f;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  transition: 0.5s;
+}
+
+.about-text a:hover::after {
+  width: 100%;
+}
+
+
+/* =========================================================
+   ORIGINAL FOOTER
+   ========================================================= */
+
+footer {
+  background-color: #cfd0ad;
+  color: #090808;
+  text-align: center;
+  padding: 0;
+  border-top: 1px solid #999;
+}
+
+footer .socials {
+  margin-top: 15px;
+  display: block;
+}
+
+footer .socials a {
+  text-decoration: none;
+  font-size: 30px;
+  color: #0e1153;
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.5s;
+}
+
+footer .socials a:hover {
+  color: #669900;
+  transform: translateY(-5px);
+}
+
+footer p {
+  margin-top: 15px;
+  margin-bottom: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #090808;
+  font-weight: 300;
+}
+
+
+/* =========================================================
+   MOBILE — ORIGINAL-STYLE ABOUT
+   ========================================================= */
+
+@media only screen and (max-width: 600px) {
+
+  .about-inner {
+    display: block;
+    padding: 1px 5%;
+  }
+
+  .about-image {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  .about-image img {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .about-text {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   WIDTH + SPACING REFINEMENT
+   ========================================================= */
+
+.about-section {
+  min-height: 100vh;
+  padding: 12vh 5vw;
+  background: #e6dbc9;
+  color: #081c10;
+  display: flex;
+  align-items: center;
+}
+
+.about-inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 9vw;
+  align-items: center;
+}
+
+.about-image {
+  flex-basis: auto;
+}
+
+.about-image img {
+  width: 90%;
+  max-width: 350px;
+  height: auto;
+  display: block;
+  border-radius: 5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about-text {
+  max-width: 560px;
+  padding: 0;
+}
+
+.about-text h2 {
+  color: #144141;
+  margin-bottom: 30px;
+  font-family: inherit;
+  font-size: 1.5em;
+  line-height: 1.05;
+  font-weight: bold;
+}
+
+.about-text p {
+  color: #090808;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.about-text .assamese {
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+
+/* Mobile */
+
+@media only screen and (max-width: 700px) {
+
+  .about-section {
+    padding: 80px 25px;
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .about-image img {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .about-text {
+    max-width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   LANGUAGE + TYPOGRAPHY
+   ========================================================= */
+
+/* English text */
+.english-content,
+.english-content h2,
+.english-content p,
+.english-content a,
+.english-content button {
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Larger English name */
+.english-content h2 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #144141;
+}
+
+/* English paragraphs */
+.english-content p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 22px;
+}
+
+/* Assamese */
+.assamese-content,
+.assamese-content h2,
+.assamese-content p,
+.assamese-content a {
+  font-family: "Kalpurush", serif;
+}
+
+.assamese-content h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.2;
+  font-weight: 400;
+  margin-bottom: 30px;
+  color: #144141;
+}
+
+.assamese-content p {
+  font-size: 18px;
+  line-height: 1.9;
+  margin-bottom: 22px;
+}
+
+/* Language button */
+.language-toggle {
+  margin-top: 12px;
+  padding: 8px 18px;
+  border: 1px solid #581845;
+  border-radius: 20px;
+  background: transparent;
+  color: #581845;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.language-toggle:hover {
+  background: #581845;
+  color: #dfdccb;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+
+/* =========================================================
+   LANDING PAGE — SEQUENTIAL HERO ANIMATION
+   ========================================================= */
+
+/* Hero content fills the landing page */
+.hero-content {
+  width: 100%;
+  margin: auto;
+  position: relative;
+  height: 55vh;
+  transform: none;
+  display: block;
+}
+
+
+/* ---------------------------------------------------------
+   LA VIE EST BELLE
+   Enters from the left
+   --------------------------------------------------------- */
+
+.hero-kicker {
+  position: absolute;
+  left: 0;
+  top: 25%;
+
+  margin: 0;
+
+  color: #dfdccb;
+  font-family: "Times New Roman", Times, serif;
+
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  font-weight: 400;
+
+  text-align: left;
+
+  opacity: 0;
+  transform: translateX(-120px);
+
+  animation: laVieIn 1.4s cubic-bezier(0.22, 1, 0.36, 1)
+             0.15s forwards;
+}
+
+
+/* ---------------------------------------------------------
+   Life is beautiful
+   Enters from the right
+   --------------------------------------------------------- */
+
+.hero-content h1 {
+  position: absolute;
+  right: 2%;
+  bottom: 20%;
+
+  margin: 0;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.02em;
+
+  text-align: right;
+
+  opacity: 0;
+  transform: translateX(120px);
+
+  animation: lifeBeautifulIn 1.3s cubic-bezier(0.22, 1, 0.36, 1)
+             1.25s forwards;
+}
+
+
+/* ---------------------------------------------------------
+   Animations
+   --------------------------------------------------------- */
+
+@keyframes laVieIn {
+
+  0% {
+    opacity: 0;
+    transform: translateX(-120px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+@keyframes lifeBeautifulIn {
+
+  0% {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   Keep navigation above animation
+   --------------------------------------------------------- */
+
+.site-header {
+  position: relative;
+  z-index: 10;
+}
+
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  .hero-content {
+    height: 55vh;
+  }
+
+  .hero-kicker {
+    left: 0;
+    top: 25%;
+    font-size: clamp(2.8rem, 14vw, 5rem);
+  }
+
+  .hero-content h1 {
+    right: 0;
+    bottom: 22%;
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+  }
+
+}
+
+/* Landing page title refinement */
+.hero-kicker {
+  left: 8%;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+@media (max-width: 700px) {
+  .hero-kicker {
+    left: 5%;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+}
+
+
+/* Two-line LA VIE EST BELLE */
+.hero-kicker {
+  left: 8%;
+  top: 20%;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 0.9;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .hero-kicker {
+    left: 5%;
+    top: 22%;
+  }
+}
+
+
+/* Small subtitle directly below LA VIE EST BELLE */
+.hero-content h1 {
+  right: auto;
+  left: 1%;
+  top: calc(20% + clamp(6.5rem, 13vw, 12rem));
+  bottom: auto;
+
+  color: #f4c542;
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.75rem, 1.1vw, 1rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  text-align: left;
+
+  opacity: 0;
+  transform: translateX(80px);
+
+  animation: lifeBeautifulIn 1.2s cubic-bezier(0.22, 1, 0.36, 1)
+             1.25s forwards;
+}
+
+@media (max-width: 700px) {
+  .hero-content h1 {
+    left: 5%;
+    top: calc(22% + 8rem);
+    font-size: 0.8rem;
+  }
+}
+
+
+/* Life is beautiful — positioned beside the second line */
+.hero-content h1 {
+  left: calc(4% + clamp(11rem, 20vw, 20rem));
+  top: calc(20% + clamp(3.8rem, 7vw, 6.5rem));
+  right: auto;
+  bottom: auto;
+
+  color: #f4c542;
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.65rem, 1vw, 0.95rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-align: left;
+
+  opacity: 0;
+  transform: translateX(80px);
+
+  animation: lifeBeautifulIn 1.2s cubic-bezier(0.22, 1, 0.36, 1)
+             1.25s forwards;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+  .hero-content h1 {
+    left: calc(5% + 9rem);
+    top: calc(22% + 4.2rem);
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+}
+
+/* =========================================================
+   MINIMAL EDITORIAL LANDING PAGE
+   ========================================================= */
+
+.hero {
+  background: #093a41;
+  min-height: 100vh;
+  padding: 32px 5vw 45px;
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* ---------------- HEADER ---------------- */
+
+.site-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-name {
+  color: #dfdccb;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 28px;
+}
+
+.site-header nav a {
+  color: #dfdccb;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.site-header nav a:hover {
+  opacity: 1;
+}
+
+
+/* ---------------- HERO CONTENT ---------------- */
+
+.hero-content {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  margin: auto;
+  transform: none;
+}
+
+
+/* Small editorial label */
+
+.hero-content::before {
+  content: "01 — INTRO";
+
+  position: absolute;
+  left: 8%;
+  top: 16%;
+
+  color: rgba(223, 220, 203, 0.55);
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+
+/* ---------------- MAIN TITLE ---------------- */
+
+.hero-kicker {
+  position: absolute;
+
+  left: 8%;
+  top: 25%;
+
+  margin: 0;
+
+  color: #dfdccb;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 400;
+
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+
+  text-align: left;
+
+  opacity: 0;
+
+  transform: translateX(-35px);
+
+  animation:
+    minimalTitleIn
+    1.5s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.15s
+    forwards;
+}
+
+
+/* ---------------- SUBTITLE ---------------- */
+
+.hero-content h1 {
+  position: absolute;
+
+  left: calc(8% + clamp(11rem, 20vw, 20rem));
+  top: calc(25% + clamp(4rem, 7vw, 6.5rem));
+
+  margin: 0;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+
+  font-weight: 400;
+  font-style: italic;
+
+  letter-spacing: 0.05em;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  transform: translateX(25px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* ---------------- ANIMATIONS ---------------- */
+
+@keyframes minimalTitleIn {
+
+  0% {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+@keyframes minimalSubtitleIn {
+
+  0% {
+    opacity: 0;
+    transform: translateX(25px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+/* ---------------- SCROLL CUE ---------------- */
+
+.scroll-cue {
+  position: absolute;
+
+  bottom: 32px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+
+  color: rgba(223, 220, 203, 0.65);
+
+  text-decoration: none;
+}
+
+.scroll-cue span {
+  width: 1px;
+  height: 38px;
+
+  background: rgba(223, 220, 203, 0.65);
+
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+.scroll-cue small {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 9px;
+
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+
+@keyframes scrollPulse {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.65);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+}
+
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 700px) {
+
+  .hero {
+    padding: 25px;
+  }
+
+  .site-header nav {
+    gap: 14px;
+  }
+
+  .site-header nav a {
+    font-size: 11px;
+  }
+
+  .site-name {
+    font-size: 13px;
+  }
+
+  .hero-content {
+    height: 60vh;
+  }
+
+  .hero-content::before {
+    left: 5%;
+    top: 17%;
+  }
+
+  .hero-kicker {
+    left: 5%;
+    top: 27%;
+
+    font-size: clamp(3.2rem, 15vw, 5.5rem);
+  }
+
+  .hero-content h1 {
+    left: calc(5% + 9rem);
+    top: calc(27% + 4.2rem);
+
+    font-size: 0.7rem;
+  }
+
+}
+
+/* Correct position of "Life is beautiful" */
+.hero-content h1 {
+  left: 20%;
+  top: calc(25% + clamp(4rem, 7vw, 6.5rem));
+
+  right: auto;
+  bottom: auto;
+
+  color: #f4c542;
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  text-align: left;
+
+  opacity: 0;
+  transform: translateX(25px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+  .hero-content h1 {
+    left: 42%;
+    top: calc(27% + 4.2rem);
+    font-size: 0.7rem;
+  }
+}
+
+
+/* =========================================================
+   LIFE IS BEAUTIFUL — BELOW THE TITLE
+   ========================================================= */
+
+.hero-content h1 {
+  left: 8%;
+  right: auto;
+
+  /* Position below both lines of La Vie / Est Belle */
+  top: calc(25% + clamp(8rem, 12vw, 11rem));
+  bottom: auto;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+  font-weight: 400;
+  font-style: italic;
+
+  letter-spacing: 0.08em;
+  text-align: left;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(15px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* Subtitle animation from slightly below */
+
+@keyframes minimalSubtitleIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .hero-content h1 {
+    left: 5%;
+    top: calc(27% + 8rem);
+    font-size: 0.7rem;
+  }
+
+}
+
+
+/* =========================================================
+   ALIGN "LIFE IS BEAUTIFUL" WITH THE RIGHT EDGE OF TITLE
+   ========================================================= */
+
+.hero-kicker {
+  left: 4%;
+  width: min(760px, 84vw);
+  top: 25%;
+
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: left;
+}
+
+
+/* Subtitle sits underneath the complete title
+   and ends exactly where "Est Belle" ends */
+
+.hero-content h1 {
+  left: 1%;
+  width: min(760px, 84vw);
+
+  right: auto;
+  bottom: auto;
+
+  top: calc(25% + clamp(10rem, 15vw, 15rem));
+
+  margin: 0;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+  font-weight: 400;
+  font-style: italic;
+
+  letter-spacing: 0.06em;
+
+  text-align: right;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(15px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .hero-kicker {
+    left: 5%;
+    width: 90vw;
+  }
+
+  .hero-content h1 {
+    left: 5%;
+    width: 90vw;
+
+    top: calc(27% + 8rem);
+
+    font-size: 0.7rem;
+  }
+
+}
+
+
+/* =========================================================
+   FINAL LANDING PAGE TITLE ALIGNMENT
+   ========================================================= */
+
+/* Main title */
+.hero-kicker {
+  left: 8%;
+  top: 25%;
+
+  width: auto;
+
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: left;
+}
+
+
+/* Life is beautiful */
+.hero-content h1 {
+  left: 8%;
+
+  /* Match the visual width of the title rather than
+     using the overly-wide 760px box */
+  width: clamp(760px, 84vw, 735px);
+
+  top: calc(25% + clamp(7.5rem, 10vw, 9.5rem));
+
+  right: auto;
+  bottom: auto;
+
+  margin: 0;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+  font-weight: 400;
+  font-style: italic;
+
+  letter-spacing: 0.06em;
+
+  text-align: right;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(12px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* Mobile */
+@media (max-width: 700px) {
+
+  .hero-kicker {
+    left: 5%;
+  }
+
+  .hero-content h1 {
+    left: 5%;
+    width: 90vw;
+
+    top: calc(27% + 7.5rem);
+
+    font-size: 0.7rem;
+  }
+
+}
+
+
+/* =========================================================
+   TITLE + SUBTITLE — RELATIVE POSITIONING
+   ========================================================= */
+
+.hero-title-group {
+  position: absolute;
+  left: 15%;
+  top: 25%;
+
+  display: inline-block;
+
+  width: fit-content;
+}
+
+
+/* Main title */
+
+.hero-title-group .hero-kicker {
+  position: relative;
+
+  left: auto;
+  top: auto;
+
+  width: auto;
+
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 400;
+
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+
+  color: #dfdccb;
+
+  text-align: left;
+
+  opacity: 0;
+  transform: translateX(-35px);
+
+  animation:
+    minimalTitleIn
+    1.5s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.15s
+    forwards;
+}
+
+
+/* Life is beautiful */
+
+.hero-title-group .hero-subtitle {
+  position: relative;
+
+  width: 100%;
+
+  margin-top: 10px;
+
+  color: #f4c542;
+
+  font-family: "Times New Roman", Times, serif;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
+
+  font-weight: 400;
+  font-style: italic;
+
+  letter-spacing: 0.06em;
+
+  text-align: right;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(12px);
+
+  animation:
+    minimalSubtitleIn
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    1.15s
+    forwards;
+}
+
+
+/* Subtitle animation */
+
+@keyframes minimalSubtitleIn {
+
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+  .hero-title-group {
+    left: 8%;
+    top: 27%;
+  }
+
+  .hero-title-group .hero-kicker {
+    font-size: clamp(3.2rem, 15vw, 5.5rem);
+  }
+
+  .hero-title-group .hero-subtitle {
+    margin-top: 8px;
+    font-size: 0.7rem;
+  }
+
+}
+
+
+/* Move the complete title group downward */
+.hero-title-group {
+  top: 32%;
+}
+
+@media (max-width: 700px) {
+  .hero-title-group {
+    top: 32%;
+  }
+}
+
