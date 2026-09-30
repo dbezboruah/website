@@ -1,5 +1,13 @@
 [
   {
+    "filename": "shadow.jpeg",
+    "src": "gallery/shadow.jpeg"
+  },
+  {
+    "filename": "story.jpeg",
+    "src": "gallery/story.jpeg"
+  },
+  {
     "filename": "WhatsApp Image 2026-05-30 at 18.26.37.jpeg",
     "src": "gallery/WhatsApp Image 2026-05-30 at 18.26.37.jpeg"
   },
@@ -84,11 +92,11 @@
     "src": "gallery/WhatsApp Image 2026-05-30 at 18.26.40.jpeg"
   },
   {
-    "filename": "shadow.jpeg",
-    "src": "gallery/shadow.jpeg"
+    "filename": "WhatsApp Image 2026-10-01 at 3.45.06 AM (1).jpeg",
+    "src": "gallery/WhatsApp Image 2026-10-01 at 3.45.06 AM (1).jpeg"
   },
   {
-    "filename": "story.jpeg",
-    "src": "gallery/story.jpeg"
+    "filename": "WhatsApp Image 2026-10-01 at 3.45.06 AM.jpeg",
+    "src": "gallery/WhatsApp Image 2026-10-01 at 3.45.06 AM.jpeg"
   }
 ]
