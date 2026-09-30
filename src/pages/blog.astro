@@ -3,8 +3,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/blog.css";
 import "../styles/blog-font.css";
-
-const base = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>
@@ -14,10 +12,7 @@ const base = import.meta.env.BASE_URL;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>বেবেৰিবাং — Blog</title>
 
-  <!-- Kalpurush web font for Assamese/Bengali script -->
   <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
-
-  <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
 </head>
 
@@ -39,11 +34,17 @@ const base = import.meta.env.BASE_URL;
 
   <Footer />
 
-  <script is:inline define:vars={{ base }}>
-    const POSTS_FILE = `${base}posts.json`;
+  <script is:inline>
+    /*
+     * posts.json lives in /website/posts.json.
+     * Build the URL from the current page so this works both for
+     * /website/blog/ and for the older /website/blog.html URL.
+     */
+    const POSTS_FILE = new URL(
+      "../posts.json",
+      window.location.href
+    ).href;
 
-    /* Apply Kalpurush only to Assamese/Bengali Unicode characters.
-       English text remains Times New Roman. */
     function applyAssameseFont(root) {
       if (!root) return;
 
@@ -98,7 +99,9 @@ const base = import.meta.env.BASE_URL;
       const blogList = document.getElementById("blogList");
 
       try {
-        const response = await fetch(POSTS_FILE + "?t=" + Date.now());
+        const response = await fetch(POSTS_FILE + "?t=" + Date.now(), {
+          cache: "no-store"
+        });
 
         if (!response.ok) {
           throw new Error("Could not load posts.json. Status: " + response.status);
@@ -151,15 +154,11 @@ const base = import.meta.env.BASE_URL;
       const article = document.createElement("article");
       article.className = "post_preview";
 
-      const title = post.title || "Untitled";
-      const date = formatDate(post.date);
-      const excerpt = post.excerpt || "";
-
       article.innerHTML = `
         <div>
-          <div class="post_preview_date">${date}</div>
-          <h2 class="post_preview_title">${escapeHTML(title)}</h2>
-          <div class="post_preview_excerpt">${escapeHTML(excerpt)}</div>
+          <div class="post_preview_date">${formatDate(post.date)}</div>
+          <h2 class="post_preview_title">${escapeHTML(post.title || "Untitled")}</h2>
+          <div class="post_preview_excerpt">${escapeHTML(post.excerpt || "")}</div>
         </div>
         <a href="#post-${encodeURIComponent(post.id)}" class="read_link">Read story →</a>
       `;
@@ -207,9 +206,7 @@ const base = import.meta.env.BASE_URL;
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    window.addEventListener("popstate", function() {
-      handleURL();
-    });
+    window.addEventListener("popstate", handleURL);
 
     function handleURL() {
       if (!window.blogPosts) return;
@@ -231,9 +228,7 @@ const base = import.meta.env.BASE_URL;
 
     function formatDate(dateString) {
       if (!dateString) return "";
-
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-IN", {
+      return new Date(dateString).toLocaleDateString("en-IN", {
         year: "numeric",
         month: "long",
         day: "numeric"
