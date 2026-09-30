@@ -53,7 +53,14 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
 
   <script is:inline>
     const galleryItems = Array.from(document.querySelectorAll(".gallery-item"));
-    const galleryImages = galleryItems.map((item) => item.querySelector("img").src);
+    const galleryImages = galleryItems.map((item) => {
+      const img = item.querySelector("img");
+      return {
+        src: img.src,
+        fallback: img.dataset.fallback
+      };
+    });
+
     const lightbox = document.getElementById("lightbox");
     const lightboxImage = document.getElementById("lightboxImage");
     const lightboxClose = document.getElementById("lightboxClose");
@@ -69,11 +76,21 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
       });
     });
 
+    function setLightboxImage(index) {
+      const image = galleryImages[index];
+      lightboxImage.onerror = function () {
+        if (image.fallback && this.src !== image.fallback) {
+          this.src = image.fallback;
+        }
+      };
+      lightboxImage.src = image.src;
+      lightboxImage.alt = "Gallery photo";
+    }
+
     function openLightbox(index) {
       if (!galleryImages.length) return;
       currentIndex = (index + galleryImages.length) % galleryImages.length;
-      lightboxImage.src = galleryImages[currentIndex];
-      lightboxImage.alt = "Gallery photo";
+      setLightboxImage(currentIndex);
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.classList.add("lightbox-open");
@@ -84,6 +101,7 @@ const images = Array.isArray(galleryImages) ? galleryImages : [];
       lightbox.setAttribute("aria-hidden", "true");
       document.body.classList.remove("lightbox-open");
       lightboxImage.removeAttribute("src");
+      lightboxImage.onerror = null;
     }
 
     function showPrevious() { openLightbox(currentIndex - 1); }
