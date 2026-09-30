@@ -37,10 +37,8 @@ jobs:
           posts = []
 
           def prepare_blogger_html(content):
-              """Keep Blogger's article HTML, including images, but make
-              Blogger-hosted images more robust for the Astro site."""
-
-              # Remove executable content before publishing Blogger HTML.
+              # Keep Blogger's complete article HTML, including images.
+              # Remove executable content before publishing it.
               content = re.sub(
                   r"<script.*?</script>",
                   "",
@@ -48,32 +46,31 @@ jobs:
                   flags=re.DOTALL | re.IGNORECASE,
               )
 
-              # Blogger commonly serves resized images as /s320/, /s640/,
-              # /s706/, etc. Use /s1600/ so the Astro site gets a larger
-              # version while retaining the original Blogger-hosted image.
+              # Blogger image URLs often contain /s320/, /s640/, /s706/,
+              # etc. Request a larger version while keeping the same image.
               content = re.sub(
-                  r"(https?:\\/\\/blogger\\.googleusercontent\\.com/[^\\\"'\\s>]+?)/s\\d+(?:-c)?/",
-                  r"\\1/s1600/",
+                  r"(https?://blogger\.googleusercontent\.com/[^\"'\s>]+?)/s\d+(?:-c)?/",
+                  r"\1/s1600/",
                   content,
                   flags=re.IGNORECASE,
               )
 
-              # Also handle normal, unescaped URLs in the HTML.
+              # Handle Blogger URLs that appear HTML-escaped as https:\/\/...
               content = re.sub(
-                  r"(https?://blogger\\.googleusercontent\\.com/[^\\\"'\\s>]+?)/s\\d+(?:-c)?/",
-                  r"\\1/s1600/",
+                  r"(https?:\\/\\/blogger\.googleusercontent\.com/[^\"'\s>]+?)/s\d+(?:-c)?/",
+                  r"\1/s1600/",
                   content,
                   flags=re.IGNORECASE,
               )
 
-              # Some Blogger templates use data-src instead of src. Promote
-              # it to src so the browser loads the image normally.
+              # Promote data-src to src if a Blogger image uses lazy-loading
+              # markup that would otherwise leave the image unloaded.
               def promote_data_src(match):
                   tag = match.group(0)
-                  if re.search(r"\\bsrc\\s*=", tag, re.IGNORECASE):
+                  if re.search(r"\bsrc\s*=", tag, re.IGNORECASE):
                       return tag
                   data_src = re.search(
-                      r"\\bdata-src\\s*=\\s*([\\\"'])(.*?)\\1",
+                      r"\bdata-src\s*=\s*([\"'])(.*?)\1",
                       tag,
                       re.IGNORECASE | re.DOTALL,
                   )
@@ -81,26 +78,35 @@ jobs:
                       return tag
                   url = data_src.group(2)
                   return re.sub(
-                      r"(<img\\b)",
-                      r'\\1 src="' + url.replace('"', '&quot;') + '"',
+                      r"(<img\b)",
+                      r'\1 src="' + url.replace('"', '&quot;') + '"',
                       tag,
                       count=1,
                       flags=re.IGNORECASE,
                   )
 
-              content = re.sub(r"<img\\b[^>]*>", promote_data_src, content, flags=re.IGNORECASE)
+              content = re.sub(
+                  r"<img\b[^>]*>",
+                  promote_data_src,
+                  content,
+                  flags=re.IGNORECASE,
+              )
 
-              # Add browser-friendly attributes to Blogger images without
-              # changing their URLs or removing any existing attributes.
+              # Keep images responsive and let the browser load them normally.
               def prepare_img(match):
                   tag = match.group(0)
-                  if not re.search(r"\\bloading\\s*=", tag, re.IGNORECASE):
+                  if not re.search(r"\bloading\s*=", tag, re.IGNORECASE):
                       tag = tag[:-1] + ' loading="lazy">'
-                  if not re.search(r"\\bdecoding\\s*=", tag, re.IGNORECASE):
+                  if not re.search(r"\bdecoding\s*=", tag, re.IGNORECASE):
                       tag = tag[:-1] + ' decoding="async">'
                   return tag
 
-              return re.sub(r"<img\\b[^>]*>", prepare_img, content, flags=re.IGNORECASE)
+              return re.sub(
+                  r"<img\b[^>]*>",
+                  prepare_img,
+                  content,
+                  flags=re.IGNORECASE,
+              )
 
           for entry in entries:
               title = entry.get("title", {}).get("$t", "Untitled")
@@ -110,11 +116,11 @@ jobs:
               content = entry.get("content", entry.get("summary", {})).get("$t", "")
               clean_content = prepare_blogger_html(content)
 
-              # Build the excerpt from text while keeping the full HTML in
-              # post["content"] so images and formatting survive the sync.
+              # Generate excerpt from text, but keep the complete HTML in
+              # content so Blogger images and formatting are preserved.
               text = re.sub(r"<[^>]+>", " ", clean_content)
               text = html.unescape(text)
-              text = re.sub(r"\\s+", " ", text).strip()
+              text = re.sub(r"\s+", " ", text).strip()
 
               excerpt = text[:280]
               if len(text) > 280:
