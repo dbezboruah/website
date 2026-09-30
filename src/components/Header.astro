@@ -1,18 +1,18 @@
 ---
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <header class="site-header">
 
   <h1>
-    <a href={base}>Dharitree Bezboruah</a>
+    <a href={`${base}/`}>Dharitree Bezboruah</a>
   </h1>
 
   <nav>
-    <a href={base}>Home</a>
-    <a href={`${base}about/`}>About</a>
-    <a href={`${base}blog/`}>Blog</a>
-    <a href={`${base}gallery/`}>Gallery</a>
+    <a href={`${base}/`}>Home</a>
+    <a href={`${base}/about/`}>About</a>
+    <a href={`${base}/blog/`}>Blog</a>
+    <a href={`${base}/gallery/`}>Gallery</a>
   </nav>
 
 </header>
