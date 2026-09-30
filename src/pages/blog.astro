@@ -11,7 +11,6 @@ import "../styles/blog-font.css";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>বেবেৰিবাং — Blog</title>
-
   <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/2d462008c1.js" crossorigin="anonymous"></script>
 </head>
@@ -35,30 +34,31 @@ import "../styles/blog-font.css";
   <Footer />
 
   <script is:inline>
-    /*
-     * posts.json lives in /website/posts.json.
-     * Build the URL from the current page so this works both for
-     * /website/blog/ and for the older /website/blog.html URL.
-     */
-    const POSTS_FILE = new URL(
-      "../posts.json",
-      window.location.href
-    ).href;
+    const POSTS_FILE = new URL("../posts.json", window.location.href).href;
 
+    /* Apply Kalpurush to every Assamese-script run while leaving English
+       and other Latin text in the surrounding element's font. This works
+       inside Blogger HTML too: p, span, strong, em, headings, etc. */
     function applyAssameseFont(root) {
       if (!root) return;
+
+      const ASSAMESE = /[\u0980-\u09FF]/;
+      const SCRIPT_RUN = /[\u0980-\u09FF]+(?:[\u200C\u200D][\u0980-\u09FF]+)*/g;
 
       const walker = document.createTreeWalker(
         root,
         NodeFilter.SHOW_TEXT,
         {
           acceptNode(node) {
-            if (!node.nodeValue || !/[\u0980-\u09FF]/.test(node.nodeValue)) {
+            if (!node.nodeValue || !ASSAMESE.test(node.nodeValue)) {
               return NodeFilter.FILTER_REJECT;
             }
-            if (node.parentElement && node.parentElement.closest(".assamese-text")) {
+
+            const parent = node.parentElement;
+            if (!parent || parent.closest(".assamese-text, script, style, textarea, code, pre")) {
               return NodeFilter.FILTER_REJECT;
             }
+
             return NodeFilter.FILTER_ACCEPT;
           }
         }
@@ -72,10 +72,11 @@ import "../styles/blog-font.css";
         const text = textNode.nodeValue;
         const fragment = document.createDocumentFragment();
         let last = 0;
-        const regex = /[\u0980-\u09FF]+(?:[\u200C\u200D][\u0980-\u09FF]+)*/g;
         let match;
 
-        while ((match = regex.exec(text)) !== null) {
+        SCRIPT_RUN.lastIndex = 0;
+
+        while ((match = SCRIPT_RUN.exec(text)) !== null) {
           if (match.index > last) {
             fragment.appendChild(document.createTextNode(text.slice(last, match.index)));
           }
@@ -84,7 +85,7 @@ import "../styles/blog-font.css";
           span.className = "assamese-text";
           span.textContent = match[0];
           fragment.appendChild(span);
-          last = regex.lastIndex;
+          last = SCRIPT_RUN.lastIndex;
         }
 
         if (last < text.length) {
@@ -191,6 +192,9 @@ import "../styles/blog-font.css";
         </article>
       `;
 
+      /* Important: run this AFTER inserting post.content into the DOM.
+         Therefore Assamese text inside the actual Blogger article HTML
+         is converted too, including nested spans/strong/em/p elements. */
       applyAssameseFont(articleView);
 
       document.getElementById("backTop").addEventListener("click", function(event) {
