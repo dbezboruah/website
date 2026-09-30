@@ -1,0 +1,26 @@
+/* =========================================================
+   BLOG FONT OVERRIDES
+   English: Times New Roman
+   Assamese: Kalpurush
+   ========================================================= */
+
+body,
+.post_preview_title,
+.post_preview_excerpt,
+.article_title,
+.article_content,
+.article_content p,
+.article_content span {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+/* Assamese text inserted by blog.astro */
+.assamese-text,
+.blog-subtitle .assamese-title {
+    font-family: "Kalpurush", sans-serif !important;
+}
+
+/* Keep the English part of the blog subtitle in Times New Roman */
+.blog-subtitle .english-title {
+    font-family: "Times New Roman", Times, serif !important;
+}
