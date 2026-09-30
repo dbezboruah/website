@@ -22,26 +22,74 @@ jobs:
         run: |
           python3 <<'PY'
           import json
+          import re
+          from datetime import datetime
           from pathlib import Path
 
           gallery_dir = Path("public/gallery")
           output = Path("public/gallery.json")
           image_extensions = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"}
 
-          images = []
-          if gallery_dir.exists():
-              for path in sorted(gallery_dir.iterdir(), key=lambda p: p.name.lower()):
-                  if path.is_file() and path.suffix.lower() in image_extensions:
-                      images.append({
-                          "filename": path.name,
-                          "src": f"gallery/{path.name}"
-                      })
+          # WhatsApp filenames contain the photo date/time, e.g.
+          # "WhatsApp Image 2026-10-01 at 3.45.06 AM.jpeg".
+          # Use that timestamp so the newest photographs appear first.
+          whatsapp_pattern = re.compile(
+              r"WhatsApp Image (\d{4}-\d{2}-\d{2}) at (\d{1,2})\.(\d{2})\.(\d{2})\s*(AM|PM)?",
+              re.IGNORECASE,
+          )
+
+          def photo_datetime(path):
+              match = whatsapp_pattern.search(path.stem)
+              if not match:
+                  return None
+
+              date_part, hour, minute, second, ampm = match.groups()
+              hour = int(hour)
+
+              if ampm:
+                  ampm = ampm.upper()
+                  if ampm == "AM" and hour == 12:
+                      hour = 0
+                  elif ampm == "PM" and hour != 12:
+                      hour += 12
+
+              return datetime.strptime(
+                  f"{date_part} {hour:02d}:{minute}:{second}",
+                  "%Y-%m-%d %H:%M:%S",
+              )
+
+          paths = [
+              path for path in gallery_dir.iterdir()
+              if path.is_file() and path.suffix.lower() in image_extensions
+          ] if gallery_dir.exists() else []
+
+          # Dated WhatsApp photographs first, newest to oldest.
+          # Files without a recognizable date (e.g. shadow.jpeg/story.jpeg)
+          # remain afterward in alphabetical order.
+          paths.sort(
+              key=lambda path: (
+                  photo_datetime(path) is not None,
+                  photo_datetime(path) or datetime.min,
+                  path.name.lower(),
+              ),
+              reverse=True,
+          )
+
+          images = [
+              {
+                  "filename": path.name,
+                  "src": f"gallery/{path.name}",
+              }
+              for path in paths
+          ]
 
           output.write_text(
               json.dumps(images, ensure_ascii=False, indent=2),
-              encoding="utf-8"
+              encoding="utf-8",
           )
           print(f"Generated gallery.json with {len(images)} images.")
+          if images:
+              print(f"Newest image: {images[0]['filename']}")
           PY
 
       - name: Commit updated gallery data
@@ -52,6 +100,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No gallery changes."
           else
-            git commit -m "Update gallery data"
+            git commit -m "Sort gallery images newest first"
             git push
           fi
