@@ -36,9 +36,6 @@ import "../styles/blog-font.css";
   <script is:inline>
     const POSTS_FILE = new URL("../posts.json", window.location.href).href;
 
-    /* Apply Kalpurush to every Assamese-script run while leaving English
-       and other Latin text in the surrounding element's font. This works
-       inside Blogger HTML too: p, span, strong, em, headings, etc. */
     function applyAssameseFont(root) {
       if (!root) return;
 
@@ -151,12 +148,35 @@ import "../styles/blog-font.css";
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    /* Get the first image embedded in the Blogger post. Since the Blogger
+       sync preserves the complete HTML, this works without changing the
+       existing posts.json format. */
+    function getFirstImage(postContent) {
+      if (!postContent) return "";
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(postContent, "text/html");
+      const image = doc.querySelector("img");
+
+      if (!image) return "";
+
+      return image.getAttribute("src") || image.getAttribute("data-src") || "";
+    }
+
     function createPost(post) {
       const article = document.createElement("article");
       article.className = "post_preview";
 
+      const imageUrl = getFirstImage(post.content);
+      const imageHTML = imageUrl
+        ? `<div class="post_preview_image_wrap">
+             <img class="post_preview_image" src="${escapeHTML(imageUrl)}" alt="${escapeHTML(post.title || "Blog post image")}" loading="lazy" decoding="async">
+           </div>`
+        : "";
+
       article.innerHTML = `
-        <div>
+        ${imageHTML}
+        <div class="post_preview_body">
           <div class="post_preview_date">${formatDate(post.date)}</div>
           <h2 class="post_preview_title">${escapeHTML(post.title || "Untitled")}</h2>
           <div class="post_preview_excerpt">${escapeHTML(post.excerpt || "")}</div>
@@ -192,9 +212,6 @@ import "../styles/blog-font.css";
         </article>
       `;
 
-      /* Important: run this AFTER inserting post.content into the DOM.
-         Therefore Assamese text inside the actual Blogger article HTML
-         is converted too, including nested spans/strong/em/p elements. */
       applyAssameseFont(articleView);
 
       document.getElementById("backTop").addEventListener("click", function(event) {
