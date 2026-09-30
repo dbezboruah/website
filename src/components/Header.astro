@@ -3,12 +3,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <header class="site-header">
-  <h1 class="site-name">
-    <a href={`${base}/`}>Dharitree Bezboruah</a>
-  </h1>
-
+  <a href={`${base}/`} class="site-name">Dharitree Bezboruah</a>
   <nav>
-    <a href={`${base}/`}>Home</a>
     <a href={`${base}/about/`}>About</a>
     <a href={`${base}/blog/`}>Blog</a>
     <a href={`${base}/gallery/`}>Gallery</a>
@@ -16,31 +12,32 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 </header>
 
 <style is:global>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
-
-  /* Same typography and spacing as the landing-page header. */
+  /* Shared header — deliberately matches the landing page header */
   .site-header {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: "DM Sans", sans-serif !important;
+    padding: 32px 5vw;
+    background: #093a41;
+    color: #dfdccb;
+    font-family: "Times New Roman", Times, serif !important;
     position: sticky;
     top: 0;
+    left: 0;
     z-index: 1000;
   }
 
-  .site-header .site-name,
-  .site-header .site-name a {
+  .site-header .site-name {
     margin: 0;
     padding: 0;
-    color: inherit;
+    color: #dfdccb !important;
     text-decoration: none;
-    font-family: "DM Sans", sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: normal;
   }
 
   .site-header nav {
@@ -49,15 +46,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     gap: 30px;
     margin: 0;
     padding: 0;
-    font-family: "DM Sans", sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
   }
 
   .site-header nav a {
     margin: 0;
     padding: 0;
-    color: inherit;
+    color: #dfdccb !important;
     text-decoration: none;
-    font-family: "DM Sans", sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.2;
@@ -81,6 +78,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   }
 
   @media (max-width: 700px) {
+    .site-header {
+      padding: 25px;
+    }
+
     .site-header nav {
       gap: 15px;
     }
@@ -89,8 +90,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       font-size: 12px;
     }
 
-    .site-header .site-name,
-    .site-header .site-name a {
+    .site-header .site-name {
       font-size: 14px;
     }
   }
